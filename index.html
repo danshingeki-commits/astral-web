@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Astral Vault</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      background: radial-gradient(circle at top, #1a102f, #0b0813);
+      color: #fff;
+      min-height: 100vh;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .header { text-align: center; margin-bottom: 24px; }
+    .header h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff416c, #8a2be2, #00d2ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    .header p { font-size: 13px; color: #8e8a9f; }
+    .grid {
+      width: 100%;
+      max-width: 420px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .card:active { transform: scale(0.96); }
+    .card.spotify { border-bottom: 3px solid #1db954; }
+    .card.netflix { border-bottom: 3px solid #e50914; }
+    .card.hbo     { border-bottom: 3px solid #9933ff; }
+    .card.prime   { border-bottom: 3px solid #00a8e1; }
+    .card.disney  { border-bottom: 3px solid #113ccf; }
+    .card.crunchy { border-bottom: 3px solid #f47521; }
+    .icon { font-size: 28px; margin-bottom: 8px; }
+    .name { font-size: 14px; font-weight: 600; color: #f0f0f5; }
+    .footer-btn {
+      width: 100%;
+      max-width: 420px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #7928ca, #ff0080);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>✦ ASTRAL ✦</h1>
+    <p>Selecciona tu servicio de streaming</p>
+  </div>
+
+  <div class="grid">
+    <div class="card spotify" onclick="elegir('Spotify')">
+      <div class="icon">🟢</div>
+      <div class="name">Spotify</div>
+    </div>
+    <div class="card netflix" onclick="elegir('Netflix')">
+      <div class="icon">🔴</div>
+      <div class="name">Netflix</div>
+    </div>
+    <div class="card hbo" onclick="elegir('HBO Max')">
+      <div class="icon">🟣</div>
+      <div class="name">HBO Max</div>
+    </div>
+    <div class="card prime" onclick="elegir('Prime Video')">
+      <div class="icon">🔷</div>
+      <div class="name">Prime Video</div>
+    </div>
+    <div class="card disney" onclick="elegir('Disney+')">
+      <div class="icon">🔵</div>
+      <div class="name">Disney+</div>
+    </div>
+    <div class="card crunchy" onclick="elegir('Crunchyroll')">
+      <div class="icon">🟠</div>
+      <div class="name">Crunchyroll</div>
+    </div>
+  </div>
+
+  <button class="footer-btn" onclick="cerrar()">Cerrar Catálogo</button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    function elegir(nombre) {
+      tg.sendData(nombre);
+      tg.close();
+    }
+
+    function cerrar() {
+      tg.close();
+    }
+  </script>
+</body>
+</html>
