@@ -37,11 +37,9 @@ const App = (function() {
     }
   }
   
-  // TIEMPO DE MIKU: 4500ms = 4.5 segundos 
-  // (Si de verdad quieres los 20s cambia el 4500 por 20000, ¡pero te advierto del riesgo!)
-  window.addEventListener('load', () => {
-    setTimeout(quitarSplash, 4500);
-  });
+  // SOLUCIÓN AL CONGELAMIENTO: 
+  // Arranca el temporizador de inmediato (4500ms), sin esperar a que carguen las imágenes.
+  setTimeout(quitarSplash, 4500);
 
   function abrirModalAnimado(modalId) {
     const modal = document.getElementById(modalId);
@@ -239,3 +237,4 @@ const App = (function() {
   };
 
 })();
+    
