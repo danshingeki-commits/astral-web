@@ -4,13 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Astral Hub</title>
+  
+  <link rel="preload" as="image" href="https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     :root {
       --wallpaper-url: url('https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp');
       --card-bg: rgba(18, 14, 28, 0.85);
       --card-border: rgba(255, 255, 255, 0.12);
       --accent: linear-gradient(135deg, #a855f7, #ec4899);
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
     }
     * { 
       box-sizing: border-box; 
@@ -34,7 +38,7 @@
       transform: translateZ(0);
     }
 
-    /* SPLASH SCREEN CENTRADO */
+    /* SPLASH SCREEN FLUIDO Y ELEGANTE */
     #splash {
       position: fixed;
       inset: 0;
@@ -46,22 +50,27 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.4s ease, visibility 0.4s;
+      transition: opacity 0.75s var(--ease-smooth), transform 0.75s var(--ease-smooth), visibility 0.75s;
+    }
+    #splash.hidden {
+      opacity: 0;
+      transform: scale(1.04);
+      pointer-events: none;
     }
     .splash-avatar {
-      width: 120px;
-      height: 120px;
+      width: 124px;
+      height: 124px;
       border-radius: 50%;
       border: 3px solid #ec4899;
-      box-shadow: 0 0 25px rgba(236, 72, 153, 0.7);
+      box-shadow: 0 0 28px rgba(236, 72, 153, 0.7);
       background-image: var(--wallpaper-url);
       background-size: cover;
       background-position: center;
-      animation: pulseLogo 1.4s infinite alternate ease-in-out;
+      animation: pulseLogo 2s infinite alternate ease-in-out;
     }
     @keyframes pulseLogo {
-      from { transform: scale(0.95); box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
-      to { transform: scale(1.05); box-shadow: 0 0 32px rgba(236, 72, 153, 0.9); }
+      from { transform: scale(0.96); box-shadow: 0 0 16px rgba(168, 85, 247, 0.5); }
+      to { transform: scale(1.04); box-shadow: 0 0 34px rgba(236, 72, 153, 0.85); }
     }
     .splash-title {
       margin-top: 18px;
@@ -80,7 +89,7 @@
       border: 3px solid rgba(255, 255, 255, 0.12);
       border-top-color: #a855f7;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.9s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -96,7 +105,9 @@
       text-transform: uppercase;
       margin-bottom: 4px;
       cursor: pointer;
+      transition: transform 0.2s ease;
     }
+    .header h1:active { transform: scale(0.97); }
     .header p { font-size: 12px; color: #f1f5f9; font-weight: 600; text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
 
     /* BUSCADOR */
@@ -114,6 +125,11 @@
       color: #fff;
       font-size: 14px;
       outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .search-box input:focus {
+      border-color: #a855f7;
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.35);
     }
     .search-box i {
       position: absolute;
@@ -144,12 +160,14 @@
       font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
     }
+    .tab-btn:active { transform: scale(0.95); }
     .tab-btn.active {
       background: #a855f7;
       color: #fff;
       border-color: #a855f7;
-      box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.5);
     }
 
     /* GRID */
@@ -170,9 +188,12 @@
       cursor: pointer;
       user-select: none;
       transform: translateZ(0);
-      transition: transform 0.1s ease;
+      transition: transform 0.25s var(--ease-smooth), border-color 0.25s ease, box-shadow 0.25s ease;
     }
-    .card:active { transform: scale(0.95); }
+    .card:active { 
+      transform: scale(0.94); 
+      border-color: rgba(168, 85, 247, 0.4);
+    }
     .card-icon {
       width: 44px;
       height: 44px;
@@ -221,16 +242,25 @@
     .c-playstation .card-icon { background: #003791; color: #fff; }
     .c-discord .card-icon     { background: #5865f2; color: #fff; }
 
-    /* VENTANAS MODALES */
+    /* MODALES CON ANIMACIÓN SUAVE Y ELEGANTE */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(0px);
       z-index: 1000;
       justify-content: center;
       align-items: center;
       padding: 16px;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .modal-overlay.active {
+      display: flex;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(8px);
     }
     .modal-box {
       background: #151025;
@@ -238,11 +268,19 @@
       border-radius: 20px;
       padding: 22px 18px;
       width: 100%;
-      max-width: 350px;
+      max-width: 340px;
       text-align: center;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.8);
-      max-height: 90vh;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.85);
+      max-height: 88vh;
       overflow-y: auto;
+      margin: auto;
+      transform: translateY(24px) scale(0.95);
+      opacity: 0;
+      transition: transform 0.4s var(--ease-smooth), opacity 0.35s ease;
+    }
+    .modal-overlay.active .modal-box {
+      transform: translateY(0) scale(1);
+      opacity: 1;
     }
     .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
     .modal-sub { font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
@@ -279,7 +317,9 @@
       cursor: pointer;
       margin-left: 6px;
       white-space: nowrap;
+      transition: background 0.2s ease, transform 0.15s ease;
     }
+    .btn-copy-tag:active { transform: scale(0.92); }
     .btn-action {
       display: block;
       width: 100%;
@@ -291,17 +331,18 @@
       font-weight: 700;
       font-size: 13px;
       cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
+    .btn-action:active { transform: scale(0.97); opacity: 0.9; }
     .btn-secondary {
       background: rgba(255, 255, 255, 0.08);
       color: #cbd5e1;
       margin-top: 8px;
     }
     
-    /* PANEL ADMIN */
     .admin-input {
       width: 100%;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.15);
       border-radius: 10px;
       padding: 10px;
@@ -309,7 +350,9 @@
       font-size: 13px;
       margin-bottom: 10px;
       outline: none;
+      transition: border-color 0.25s ease;
     }
+    .admin-input:focus { border-color: #a855f7; }
     .admin-select {
       width: 100%;
       background: #1b1330;
@@ -346,22 +389,28 @@
       position: fixed;
       bottom: 24px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(20px);
       background: #10b981;
       color: #fff;
       font-size: 12px;
       font-weight: 700;
       padding: 8px 16px;
       border-radius: 20px;
-      display: none;
+      opacity: 0;
+      pointer-events: none;
       z-index: 100000;
       box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+      transition: transform 0.3s var(--ease-smooth), opacity 0.3s ease;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH SCREEN -->
+  <!-- SPLASH SCREEN CON DESVANECIMIENTO SUAVE -->
   <div id="splash">
     <div class="splash-avatar"></div>
     <div class="splash-title">ASTRAL HUB</div>
@@ -370,7 +419,7 @@
 
   <div class="header">
     <h1 onclick="tocarTituloAdmin()">✦ ASTRAL ✦</h1>
-    <p>Toca 5 veces el título para abrir el Panel Admin</p>
+    <p>Portal Astral • Catálogo Digital</p>
   </div>
 
   <div class="search-box">
@@ -498,12 +547,23 @@
     </div>
   </div>
 
-  <!-- MODAL USUARIO: VER CUENTA -->
+  <!-- MODAL PIN -->
+  <div class="modal-overlay" id="modalPin">
+    <div class="modal-box">
+      <div class="modal-title">🔐 ACCESO PRIVADO</div>
+      <div class="modal-sub">Ingresa la clave de acceso</div>
+      <input type="password" class="admin-input" id="inpPin" placeholder="••••••••" style="text-align: center; letter-spacing: 4px; font-size: 16px;">
+      <button class="btn-action" onclick="validarPin()">Entrar</button>
+      <button class="btn-action btn-secondary" onclick="cerrarModales()">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL USUARIO -->
   <div class="modal-overlay" id="modalUser">
     <div class="modal-box">
       <div style="display:inline-block; background:rgba(34, 197, 94, 0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); padding:4px 12px; border-radius:12px; font-size:11px; font-weight:700; margin-bottom:12px;">✅ Cuenta Disponible</div>
       <div class="modal-title" id="mUserTitle">Plataforma</div>
-      <div class="modal-sub">Credenciales guardadas en el sistema</div>
+      <div class="modal-sub">Credenciales oficiales</div>
       
       <div id="mUserContent"></div>
 
@@ -511,11 +571,11 @@
     </div>
   </div>
 
-  <!-- MODAL ADMIN: GESTIÓN DE CUENTAS -->
+  <!-- MODAL ADMIN -->
   <div class="modal-overlay" id="modalAdmin">
     <div class="modal-box">
-      <div class="modal-title">⚙️ PANEL DE CONTROL</div>
-      <div class="modal-sub">Agrega y administra tus cuentas</div>
+      <div class="modal-title">👑 BIENVENIDO CREADOR</div>
+      <div class="modal-sub">Gestor Interno de Cuentas</div>
 
       <select class="admin-select" id="selPlataforma">
         <option value="Spotify">Spotify</option>
@@ -549,25 +609,24 @@
       <div style="margin: 16px 0 8px 0; font-size: 13px; font-weight: 700; color: #a855f7;">CUENTAS EN MEMORIA:</div>
       <div id="listaAdminCuentas" style="max-height: 150px; overflow-y: auto;"></div>
 
-      <button class="btn-action btn-secondary" onclick="cerrarModales()">Salir del Panel</button>
+      <button class="btn-action btn-secondary" onclick="cerrarModales()">Cerrar Sesión</button>
     </div>
   </div>
 
   <div id="toast">Copiado al portapapeles</div>
 
   <script>
-    // Quitar splash al inicio
+    // Tiempo agradable para contemplar el inicio (1.4s) antes de la transición suave
     window.addEventListener('load', () => {
       setTimeout(() => {
         const splash = document.getElementById('splash');
         if (splash) {
-          splash.style.opacity = '0';
-          setTimeout(() => splash.style.display = 'none', 400);
+          splash.classList.add('hidden');
+          setTimeout(() => splash.style.display = 'none', 750);
         }
-      }, 700);
+      }, 1400);
     });
 
-    // Base de datos local en la app
     function obtenerBD() {
       const data = localStorage.getItem('astral_cuentas');
       return data ? JSON.parse(data) : {};
@@ -577,28 +636,40 @@
       localStorage.setItem('astral_cuentas', JSON.stringify(data));
     }
 
-    // Lógica para abrir Panel de Admin tocando 5 veces el título
+    function abrirModalAnimado(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.style.display = 'flex';
+      setTimeout(() => modal.classList.add('active'), 20);
+    }
+
     let toquesTitulo = 0;
     let timerToques = null;
     function tocarTituloAdmin() {
       toquesTitulo++;
       clearTimeout(timerToques);
-      timerToques = setTimeout(() => { toquesTitulo = 0; }, 1500);
+      timerToques = setTimeout(() => { toquesTitulo = 0; }, 1400);
 
       if (toquesTitulo >= 5) {
         toquesTitulo = 0;
-        const pin = prompt("🔐 Ingrese PIN de Administrador (Por defecto: 1234):");
-        if (pin === "1234") {
-          abrirPanelAdmin();
-        } else if (pin !== null) {
-          alert("❌ PIN Incorrecto.");
-        }
+        document.getElementById('inpPin').value = '';
+        abrirModalAnimado('modalPin');
+        setTimeout(() => document.getElementById('inpPin').focus(), 300);
+      }
+    }
+
+    function validarPin() {
+      const pin = document.getElementById('inpPin').value;
+      if (pin === "Astral2236#") {
+        cerrarModales();
+        setTimeout(() => abrirPanelAdmin(), 250);
+      } else {
+        mostrarToast("❌ Clave Incorrecta");
       }
     }
 
     function abrirPanelAdmin() {
       cargarListaAdmin();
-      document.getElementById('modalAdmin').style.display = 'flex';
+      abrirModalAnimado('modalAdmin');
     }
 
     function guardarCuentaAdmin() {
@@ -607,7 +678,7 @@
       const pass = document.getElementById('inpClave').value.trim();
 
       if (!user || !pass) {
-        alert("⚠️ Completa el correo y la contraseña.");
+        mostrarToast("⚠️ Completa los campos");
         return;
       }
 
@@ -619,7 +690,7 @@
       document.getElementById('inpUsuario').value = '';
       document.getElementById('inpClave').value = '';
       cargarListaAdmin();
-      mostrarToast("✅ Cuenta guardada con éxito");
+      mostrarToast("✅ Guardado con éxito");
     }
 
     function eliminarCuentaAdmin(plat, idx) {
@@ -656,11 +727,10 @@
       }
 
       if (!hayCuentas) {
-        cont.innerHTML = '<div style="font-size:11px; color:#64748b; padding:8px;">No hay cuentas registradas aún.</div>';
+        cont.innerHTML = '<div style="font-size:11px; color:#64748b; padding:8px;">No hay cuentas guardadas aún.</div>';
       }
     }
 
-    // Mostrar cuentas al usuario
     function verCuentas(plat) {
       const bd = obtenerBD();
       document.getElementById('mUserTitle').innerText = plat;
@@ -668,7 +738,7 @@
       cont.innerHTML = '';
 
       if (bd[plat] && bd[plat].length > 0) {
-        const c = bd[plat][0]; // Entrega la cuenta disponible
+        const c = bd[plat][0];
         cont.innerHTML = `
           <div class="account-card">
             <div class="field-lbl">USUARIO / CORREO:</div>
@@ -691,12 +761,15 @@
         `;
       }
 
-      document.getElementById('modalUser').style.display = 'flex';
+      abrirModalAnimado('modalUser');
     }
 
     function cerrarModales() {
-      document.getElementById('modalUser').style.display = 'none';
-      document.getElementById('modalAdmin').style.display = 'none';
+      const modales = document.querySelectorAll('.modal-overlay');
+      modales.forEach(m => {
+        m.classList.remove('active');
+        setTimeout(() => m.style.display = 'none', 350);
+      });
     }
 
     function copiarTexto(id) {
@@ -717,8 +790,8 @@
     function mostrarToast(txt) {
       const t = document.getElementById('toast');
       t.innerText = txt;
-      t.style.display = 'block';
-      setTimeout(() => t.style.display = 'none', 1800);
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
     }
 
     function filtrar(cat, btn) {
