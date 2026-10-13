@@ -37,17 +37,19 @@ const App = (function() {
     }
   }
   
-  // SOLUCIÓN AL CONGELAMIENTO: 
-  // Arranca el temporizador de inmediato (4500ms), sin esperar a que carguen las imágenes.
   setTimeout(quitarSplash, 4500);
 
   function abrirModalAnimado(modalId) {
+    // ESTO BLOQUEA LA PANTALLA
+    document.body.classList.add('no-scroll'); 
     const modal = document.getElementById(modalId);
     modal.style.display = 'flex';
     setTimeout(() => modal.classList.add('active'), 20);
   }
 
   function cerrarModales() {
+    // ESTO DESBLOQUEA LA PANTALLA AL CERRAR
+    document.body.classList.remove('no-scroll');
     const modales = document.querySelectorAll('.modal-overlay');
     modales.forEach(m => {
       if (m.classList.contains('active')) {
@@ -237,4 +239,3 @@ const App = (function() {
   };
 
 })();
-    
