@@ -9,17 +9,18 @@
   <style>
     :root {
       --wallpaper-url: url('https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp');
-      --card-bg: rgba(18, 14, 28, 0.75);
-      --card-border: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(18, 14, 28, 0.70);
+      --card-border: rgba(255, 255, 255, 0.12);
       --accent: linear-gradient(135deg, #a855f7, #ec4899);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
     
     body {
       background-color: #0b0914;
-      background-image: linear-gradient(to bottom, rgba(11, 9, 20, 0.82), rgba(11, 9, 20, 0.94)), var(--wallpaper-url);
+      background-image: linear-gradient(to bottom, rgba(11, 9, 20, 0.40), rgba(11, 9, 20, 0.65)), var(--wallpaper-url);
       background-size: cover;
-      background-position: center;
+      background-position: center top;
+      background-repeat: no-repeat;
       background-attachment: fixed;
       color: #fff;
       min-height: 100vh;
@@ -36,8 +37,9 @@
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
       margin-bottom: 4px;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8));
     }
-    .header p { font-size: 12px; color: #cbd5e1; font-weight: 500; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+    .header p { font-size: 12px; color: #f1f5f9; font-weight: 600; text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
 
     .search-box {
       width: 100%;
@@ -80,7 +82,7 @@
     }
     .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
-      background: rgba(20, 16, 32, 0.7);
+      background: rgba(20, 16, 32, 0.75);
       backdrop-filter: blur(6px);
       border: 1px solid var(--card-border);
       color: #cbd5e1;
@@ -128,7 +130,7 @@
       justify-content: center;
       font-size: 22px;
       margin-bottom: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
     .card-title {
       font-size: 14px;
@@ -138,7 +140,7 @@
     }
     .card-desc {
       font-size: 11px;
-      color: #94a3b8;
+      color: #cbd5e1;
       font-weight: 500;
     }
 
