@@ -1,13 +1,9 @@
 /**
  * ASTRAL HUB - Core Application Logic
- * Arquitectura Modular (Módulo App)
  */
 
 const App = (function() {
   
-  // ==========================================
-  // CONFIGURACIÓN Y SEGURIDAD (Obfuscada)
-  // ==========================================
   const CONFIG = {
     dbKey: 'astral_cuentas_v2',
     adminHash: 'QXN0cmFsMjIzNiM=' 
@@ -15,16 +11,13 @@ const App = (function() {
 
   let toquesTitulo = 0;
   let timerToques = null;
+  let splashQuitado = false;
 
-  // ==========================================
-  // MANEJO DE BASE DE DATOS LOCAL
-  // ==========================================
   function obtenerBD() {
     try {
       const data = localStorage.getItem(CONFIG.dbKey);
       return data ? JSON.parse(data) : {};
     } catch (e) {
-      console.error("Error leyendo base de datos", e);
       return {};
     }
   }
@@ -32,13 +25,10 @@ const App = (function() {
   function guardarBD(data) {
     localStorage.setItem(CONFIG.dbKey, JSON.stringify(data));
   }
-
-  // ==========================================
-  // CONTROLADOR DE INTERFAZ (UI)
-  // ==========================================
   
-  // ARREGLO DE CARGA LENTA: Quita la pantalla de inicio al instante
   function quitarSplash() {
+    if (splashQuitado) return;
+    splashQuitado = true;
     const splash = document.getElementById('splash');
     if (splash && !splash.classList.contains('hidden')) {
       splash.classList.add('hidden');
@@ -47,13 +37,11 @@ const App = (function() {
     }
   }
   
-  // Dispara la apertura apenas el código básico carga (ultra rápido)
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(quitarSplash, 800); 
+  // TIEMPO DE MIKU: 4500ms = 4.5 segundos 
+  // (Si de verdad quieres los 20s cambia el 4500 por 20000, ¡pero te advierto del riesgo!)
+  window.addEventListener('load', () => {
+    setTimeout(quitarSplash, 4500);
   });
-  // Respaldo de seguridad por si falla la red
-  window.addEventListener('load', quitarSplash);
-
 
   function abrirModalAnimado(modalId) {
     const modal = document.getElementById(modalId);
@@ -61,17 +49,13 @@ const App = (function() {
     setTimeout(() => modal.classList.add('active'), 20);
   }
 
-  // ARREGLO DE CHOQUE DE ANIMACIONES
   function cerrarModales() {
     const modales = document.querySelectorAll('.modal-overlay');
     modales.forEach(m => {
       if (m.classList.contains('active')) {
         m.classList.remove('active');
         setTimeout(() => {
-          // Solo lo oculta si no se ha vuelto a activar
-          if (!m.classList.contains('active')) {
-            m.style.display = 'none';
-          }
+          if (!m.classList.contains('active')) m.style.display = 'none';
         }, 350);
       }
     });
@@ -99,9 +83,6 @@ const App = (function() {
     }
   }
 
-  // ==========================================
-  // MÓDULO DE ADMINISTRACIÓN (Acceso Secreto)
-  // ==========================================
   function tocarTituloAdmin() {
     toquesTitulo++;
     clearTimeout(timerToques);
@@ -117,14 +98,12 @@ const App = (function() {
 
   function validarPin() {
     const pinIngresado = document.getElementById('inpPin').value;
-    // Decodifica la clave oculta y valida
     if (pinIngresado === atob(CONFIG.adminHash)) {
-      // Cierra únicamente la ventana del PIN para que no choque
       const modalPin = document.getElementById('modalPin');
       modalPin.classList.remove('active');
       setTimeout(() => {
         modalPin.style.display = 'none';
-        abrirPanelAdmin(); // Abre el panel maestro sin interferencias
+        abrirPanelAdmin(); 
       }, 350);
     } else {
       mostrarToast("❌ Clave Incorrecta");
@@ -195,9 +174,6 @@ const App = (function() {
     }
   }
 
-  // ==========================================
-  // MÓDULO DEL CATÁLOGO (Cliente)
-  // ==========================================
   function verCuentas(plat) {
     const bd = obtenerBD();
     document.getElementById('mUserTitle').innerText = plat;
@@ -257,7 +233,6 @@ const App = (function() {
     });
   }
 
-  // Exponer métodos globalmente
   return {
     tocarTituloAdmin, validarPin, guardarCuentaAdmin, eliminarCuentaAdmin,
     verCuentas, cerrarModales, copiarTexto, filtrar, filtrarBusqueda
