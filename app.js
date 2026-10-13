@@ -10,7 +10,6 @@ const App = (function() {
   // ==========================================
   const CONFIG = {
     dbKey: 'astral_cuentas_v2',
-    // La clave Astral2236# cifrada en Base64 para seguridad frontend
     adminHash: 'QXN0cmFsMjIzNiM=' 
   };
 
@@ -38,17 +37,23 @@ const App = (function() {
   // CONTROLADOR DE INTERFAZ (UI)
   // ==========================================
   
-  // Quitar pantalla de carga al iniciar
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const splash = document.getElementById('splash');
-      if (splash) {
-        splash.classList.add('hidden');
-        document.body.classList.remove('loading');
-        setTimeout(() => splash.style.display = 'none', 700);
-      }
-    }, 1500);
+  // ARREGLO DE CARGA LENTA: Quita la pantalla de inicio al instante
+  function quitarSplash() {
+    const splash = document.getElementById('splash');
+    if (splash && !splash.classList.contains('hidden')) {
+      splash.classList.add('hidden');
+      document.body.classList.remove('loading');
+      setTimeout(() => splash.style.display = 'none', 700);
+    }
+  }
+  
+  // Dispara la apertura apenas el código básico carga (ultra rápido)
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(quitarSplash, 800); 
   });
+  // Respaldo de seguridad por si falla la red
+  window.addEventListener('load', quitarSplash);
+
 
   function abrirModalAnimado(modalId) {
     const modal = document.getElementById(modalId);
@@ -56,11 +61,19 @@ const App = (function() {
     setTimeout(() => modal.classList.add('active'), 20);
   }
 
+  // ARREGLO DE CHOQUE DE ANIMACIONES
   function cerrarModales() {
     const modales = document.querySelectorAll('.modal-overlay');
     modales.forEach(m => {
-      m.classList.remove('active');
-      setTimeout(() => m.style.display = 'none', 350);
+      if (m.classList.contains('active')) {
+        m.classList.remove('active');
+        setTimeout(() => {
+          // Solo lo oculta si no se ha vuelto a activar
+          if (!m.classList.contains('active')) {
+            m.style.display = 'none';
+          }
+        }, 350);
+      }
     });
   }
 
@@ -104,10 +117,15 @@ const App = (function() {
 
   function validarPin() {
     const pinIngresado = document.getElementById('inpPin').value;
-    // Decodifica la clave oculta (atob decodifica Base64)
+    // Decodifica la clave oculta y valida
     if (pinIngresado === atob(CONFIG.adminHash)) {
-      cerrarModales();
-      setTimeout(() => abrirPanelAdmin(), 250);
+      // Cierra únicamente la ventana del PIN para que no choque
+      const modalPin = document.getElementById('modalPin');
+      modalPin.classList.remove('active');
+      setTimeout(() => {
+        modalPin.style.display = 'none';
+        abrirPanelAdmin(); // Abre el panel maestro sin interferencias
+      }, 350);
     } else {
       mostrarToast("❌ Clave Incorrecta");
     }
