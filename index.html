@@ -9,25 +9,33 @@
   <style>
     :root {
       --wallpaper-url: url('https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp');
-      --card-bg: rgba(18, 14, 28, 0.70);
+      --card-bg: rgba(18, 14, 28, 0.82);
       --card-border: rgba(255, 255, 255, 0.12);
       --accent: linear-gradient(135deg, #a855f7, #ec4899);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      -webkit-tap-highlight-color: transparent; 
+    }
     
     body {
       background-color: #0b0914;
-      background-image: linear-gradient(to bottom, rgba(11, 9, 20, 0.40), rgba(11, 9, 20, 0.65)), var(--wallpaper-url);
+      background-image: linear-gradient(to bottom, rgba(11, 9, 20, 0.40), rgba(11, 9, 20, 0.70)), var(--wallpaper-url);
       background-size: cover;
       background-position: center top;
       background-repeat: no-repeat;
       background-attachment: fixed;
       color: #fff;
       min-height: 100vh;
-      padding: 16px 14px 84px 14px;
+      padding: 16px 14px 86px 14px;
+      overflow-x: hidden;
+      transform: translateZ(0); /* Aceleración GPU */
     }
     
-    .header { text-align: center; margin-bottom: 18px; }
+    .header { text-align: center; margin-bottom: 16px; }
     .header h1 {
       font-size: 26px;
       font-weight: 900;
@@ -48,20 +56,17 @@
     }
     .search-box input {
       width: 100%;
-      background: rgba(15, 12, 24, 0.75);
-      backdrop-filter: blur(8px);
+      background: rgba(18, 14, 28, 0.90);
       border: 1px solid var(--card-border);
       padding: 12px 14px 12px 38px;
       border-radius: 14px;
       color: #fff;
       font-size: 14px;
       outline: none;
-      transition: 0.2s;
     }
     .search-box input:focus {
       border-color: #a855f7;
-      background: rgba(20, 16, 32, 0.9);
-      box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
     }
     .search-box i {
       position: absolute;
@@ -76,14 +81,13 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 16px;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
       scrollbar-width: none;
     }
     .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
-      background: rgba(20, 16, 32, 0.75);
-      backdrop-filter: blur(6px);
+      background: rgba(22, 17, 36, 0.85);
       border: 1px solid var(--card-border);
       color: #cbd5e1;
       padding: 8px 14px;
@@ -92,13 +96,12 @@
       font-weight: 600;
       white-space: nowrap;
       cursor: pointer;
-      transition: 0.2s;
     }
     .tab-btn.active {
       background: #a855f7;
       color: #fff;
       border-color: #a855f7;
-      box-shadow: 0 0 14px rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
     }
 
     .grid {
@@ -108,19 +111,19 @@
     }
     .card {
       background: var(--card-bg);
-      backdrop-filter: blur(10px);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 14px 12px;
+      padding: 14px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       cursor: pointer;
-      position: relative;
-      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+      user-select: none;
+      transform: translateZ(0);
+      transition: transform 0.1s ease;
     }
-    .card:active { transform: scale(0.96); }
+    .card:active { transform: scale(0.95); }
     .card-icon {
       width: 44px;
       height: 44px;
@@ -129,8 +132,8 @@
       align-items: center;
       justify-content: center;
       font-size: 22px;
-      margin-bottom: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      margin-bottom: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
     .card-title {
       font-size: 14px;
@@ -169,17 +172,18 @@
     .c-playstation .card-icon { background: #003791; color: #fff; }
     .c-discord .card-icon     { background: #5865f2; color: #fff; }
 
+    /* Barra inferior */
     .bottom-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       padding: 12px 16px;
-      background: rgba(11, 9, 20, 0.88);
-      backdrop-filter: blur(14px);
+      background: rgba(11, 9, 20, 0.95);
       border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: center;
+      z-index: 100;
     }
     .btn-close {
       width: 100%;
@@ -192,6 +196,64 @@
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
+    }
+
+    /* Modal emergente cuando tocas una app */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: #140f24;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      padding: 24px 20px;
+      width: 100%;
+      max-width: 340px;
+      text-align: center;
+      animation: popIn 0.2s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .modal-sub { font-size: 13px; color: #94a3b8; margin-bottom: 18px; }
+    .modal-badge {
+      display: inline-block;
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .btn-action {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #cbd5e1;
     }
   </style>
 </head>
@@ -216,111 +278,111 @@
 
   <div class="grid" id="grid">
     <!-- MÚSICA -->
-    <div class="card c-spotify" data-cat="musica" onclick="seleccionar('Spotify')">
+    <div class="card c-spotify" data-cat="musica" onclick="abrirModal('Spotify', 'Música Premium sin anuncios y descargas')">
       <div class="card-icon"><i class="fa-brands fa-spotify"></i></div>
       <div class="card-title">Spotify</div>
       <div class="card-desc">Individual & Familiar</div>
     </div>
-    <div class="card c-youtube" data-cat="musica" onclick="seleccionar('YouTube Music')">
+    <div class="card c-youtube" data-cat="musica" onclick="abrirModal('YouTube Music', 'Reproducción en segundo plano & Music')">
       <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
       <div class="card-title">YouTube Prem.</div>
       <div class="card-desc">Sin anuncios & Music</div>
     </div>
-    <div class="card c-applemusic" data-cat="musica" onclick="seleccionar('Apple Music')">
+    <div class="card c-applemusic" data-cat="musica" onclick="abrirModal('Apple Music', 'Audio Espacial & Calidad Hi-Res Lossless')">
       <div class="card-icon"><i class="fa-solid fa-music"></i></div>
       <div class="card-title">Apple Music</div>
       <div class="card-desc">Audio Lossless & Spat.</div>
     </div>
-    <div class="card c-tidal" data-cat="musica" onclick="seleccionar('Tidal')">
+    <div class="card c-tidal" data-cat="musica" onclick="abrirModal('Tidal HiFi', 'Sonido Master Quality FLAC')">
       <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
       <div class="card-title">Tidal HiFi</div>
       <div class="card-desc">Calidad Master / FLAC</div>
     </div>
-    <div class="card c-deezer" data-cat="musica" onclick="seleccionar('Deezer')">
+    <div class="card c-deezer" data-cat="musica" onclick="abrirModal('Deezer', 'Audio HiFi y millones de canciones')">
       <div class="card-icon"><i class="fa-brands fa-deezer"></i></div>
       <div class="card-title">Deezer Prem.</div>
       <div class="card-desc">HiFi Audio</div>
     </div>
-    <div class="card c-amazonm" data-cat="musica" onclick="seleccionar('Amazon Music')">
+    <div class="card c-amazonm" data-cat="musica" onclick="abrirModal('Amazon Music', 'Música HD y Ultra HD')">
       <div class="card-icon"><i class="fa-brands fa-amazon"></i></div>
       <div class="card-title">Amazon Music</div>
       <div class="card-desc">HD & Ultra HD</div>
     </div>
-    <div class="card c-soundcloud" data-cat="musica" onclick="seleccionar('SoundCloud')">
+    <div class="card c-soundcloud" data-cat="musica" onclick="abrirModal('SoundCloud Go+', 'Acceso sin conexión y tracks completos')">
       <div class="card-icon"><i class="fa-brands fa-soundcloud"></i></div>
       <div class="card-title">SoundCloud Go+</div>
       <div class="card-desc">Tracks exclusivos</div>
     </div>
-    <div class="card c-qobuz" data-cat="musica" onclick="seleccionar('Qobuz')">
+    <div class="card c-qobuz" data-cat="musica" onclick="abrirModal('Qobuz', 'Streaming audiófilo 24-bit hasta 192 kHz')">
       <div class="card-icon"><i class="fa-solid fa-compact-disc"></i></div>
       <div class="card-title">Qobuz Studio</div>
       <div class="card-desc">Studio Hi-Res 24-bit</div>
     </div>
 
     <!-- CINE & TV -->
-    <div class="card c-netflix" data-cat="video" onclick="seleccionar('Netflix')">
+    <div class="card c-netflix" data-cat="video" onclick="abrirModal('Netflix', 'Cuentas Ultra HD 4K Pantallas privadas')">
       <div class="card-icon"><i class="fa-solid fa-play"></i></div>
       <div class="card-title">Netflix</div>
       <div class="card-desc">Ultra HD 4K</div>
     </div>
-    <div class="card c-hbo" data-cat="video" onclick="seleccionar('HBO Max')">
+    <div class="card c-hbo" data-cat="video" onclick="abrirModal('HBO Max', 'Max Originals, Warner Bros y Cine')">
       <div class="card-icon"><i class="fa-solid fa-tv"></i></div>
       <div class="card-title">HBO Max</div>
       <div class="card-desc">Series & Cine</div>
     </div>
-    <div class="card c-disney" data-cat="video" onclick="seleccionar('Disney+')">
+    <div class="card c-disney" data-cat="video" onclick="abrirModal('Disney+', 'Todo Marvel, Pixar, Star Wars & Star+')">
       <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
       <div class="card-title">Disney+</div>
       <div class="card-desc">Marvel & Star+</div>
     </div>
-    <div class="card c-prime" data-cat="video" onclick="seleccionar('Prime Video')">
+    <div class="card c-prime" data-cat="video" onclick="abrirModal('Prime Video', 'Series exclusivas y envíos Prime')">
       <div class="card-icon"><i class="fa-solid fa-film"></i></div>
       <div class="card-title">Prime Video</div>
       <div class="card-desc">Amazon Originals</div>
     </div>
-    <div class="card c-crunchy" data-cat="video" onclick="seleccionar('Crunchyroll')">
+    <div class="card c-crunchy" data-cat="video" onclick="abrirModal('Crunchyroll', 'Mega Fan anime sin anuncios')">
       <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
       <div class="card-title">Crunchyroll</div>
       <div class="card-desc">Mega Fan Anime</div>
     </div>
-    <div class="card c-paramount" data-cat="video" onclick="seleccionar('Paramount+')">
+    <div class="card c-paramount" data-cat="video" onclick="abrirModal('Paramount+', 'Cine, series y fútbol en vivo')">
       <div class="card-icon"><i class="fa-solid fa-mountain"></i></div>
       <div class="card-title">Paramount+</div>
       <div class="card-desc">Cine & Deportes</div>
     </div>
-    <div class="card c-apple" data-cat="video" onclick="seleccionar('Apple TV+')">
+    <div class="card c-apple" data-cat="video" onclick="abrirModal('Apple TV+', 'Producciones exclusivas en 4K HDR')">
       <div class="card-icon"><i class="fa-brands fa-apple"></i></div>
       <div class="card-title">Apple TV+</div>
       <div class="card-desc">Originals 4K</div>
     </div>
 
     <!-- PRO & GAMING -->
-    <div class="card c-canva" data-cat="otros" onclick="seleccionar('Canva')">
+    <div class="card c-canva" data-cat="otros" onclick="abrirModal('Canva Pro', 'Herramientas de diseño y kit de marca ilimitado')">
       <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
       <div class="card-title">Canva Pro</div>
       <div class="card-desc">Plantillas Pro</div>
     </div>
-    <div class="card c-chatgpt" data-cat="otros" onclick="seleccionar('ChatGPT')">
+    <div class="card c-chatgpt" data-cat="otros" onclick="abrirModal('ChatGPT Plus', 'Acceso a GPT-4o, DALL-E y Canvas')">
       <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
       <div class="card-title">ChatGPT Plus</div>
       <div class="card-desc">GPT-4o & DALL-E</div>
     </div>
-    <div class="card c-xbox" data-cat="otros" onclick="seleccionar('Xbox')">
+    <div class="card c-xbox" data-cat="otros" onclick="abrirModal('Xbox Game Pass', 'Juegos en la nube y catálogo completo')">
       <div class="card-icon"><i class="fa-brands fa-xbox"></i></div>
       <div class="card-title">Xbox Game Pass</div>
       <div class="card-desc">Ultimate Cloud</div>
     </div>
-    <div class="card c-steam" data-cat="otros" onclick="seleccionar('Steam')">
+    <div class="card c-steam" data-cat="otros" onclick="abrirModal('Steam', 'Recargas y cuentas con juegos')">
       <div class="card-icon"><i class="fa-brands fa-steam"></i></div>
       <div class="card-title">Steam</div>
       <div class="card-desc">PC Gaming</div>
     </div>
-    <div class="card c-playstation" data-cat="otros" onclick="seleccionar('PlayStation')">
+    <div class="card c-playstation" data-cat="otros" onclick="abrirModal('PlayStation', 'PS Plus Deluxe / Extra y membresías')">
       <div class="card-icon"><i class="fa-brands fa-playstation"></i></div>
       <div class="card-title">PS Plus</div>
       <div class="card-desc">Deluxe / Extra</div>
     </div>
-    <div class="card c-discord" data-cat="otros" onclick="seleccionar('Discord')">
+    <div class="card c-discord" data-cat="otros" onclick="abrirModal('Discord Nitro', 'Streaming 4K, emojis globales y mejoras')">
       <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
       <div class="card-title">Discord Nitro</div>
       <div class="card-desc">Boost & Emojis</div>
@@ -331,18 +393,57 @@
     <button class="btn-close" onclick="cerrar()">Cerrar Catálogo</button>
   </div>
 
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
+  <!-- Modal Emergente -->
+  <div class="modal-overlay" id="modal" onclick="cerrarModalFuera(event)">
+    <div class="modal-box">
+      <div class="modal-badge">✅ Stock Disponible</div>
+      <div class="modal-title" id="mTitle">Plataforma</div>
+      <div class="modal-sub" id="mDesc">Descripción del servicio</div>
+      <button class="btn-action" onclick="solicitarServicio()">⚡ Obtener Cuenta</button>
+      <button class="btn-action btn-secondary" onclick="cerrarModal()">Volver al Catálogo</button>
+    </div>
+  </div>
 
-    function seleccionar(nombre) {
-      tg.sendData(nombre);
-      tg.close();
+  <script>
+    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+    if (tg) {
+      try { tg.ready(); tg.expand(); } catch(e){}
+    }
+
+    let servicioActual = '';
+
+    function abrirModal(nombre, desc) {
+      servicioActual = nombre;
+      document.getElementById('mTitle').innerText = nombre;
+      document.getElementById('mDesc').innerText = desc;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    function cerrarModalFuera(e) {
+      if (e.target.id === 'modal') cerrarModal();
+    }
+
+    function solicitarServicio() {
+      if (tg && tg.initData) {
+        // Si está en Telegram Mini App
+        tg.sendData(servicioActual);
+        tg.close();
+      } else {
+        // Si está en la APK, abre directamente el Bot en Telegram
+        window.open(`https://t.me/Astralhub_bot?start=${encodeURIComponent(servicioActual)}`, '_blank');
+      }
     }
 
     function cerrar() {
-      tg.close();
+      if (tg) {
+        try { tg.close(); } catch(e){}
+      } else {
+        window.history.back();
+      }
     }
 
     function filtrar(cat, btn) {
