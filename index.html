@@ -8,7 +8,7 @@
   <link rel="preload" as="image" href="https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- AQUÍ CONECTAMOS EL DISEÑO EXTERNO -->
+  <!-- CONEXIÓN DE ESTILOS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="loading">
@@ -40,31 +40,136 @@
 
   <div class="grid" id="grid">
     <!-- MÚSICA -->
-    <div class="card c-spotify" data-cat="musica" onclick="App.verCuentas('Spotify')"><div class="card-icon"><i class="fa-brands fa-spotify"></i></div><div class="card-title">Spotify</div><div class="card-desc">Individual & Familiar</div></div>
-    <div class="card c-youtube" data-cat="musica" onclick="App.verCuentas('YouTube Music')"><div class="card-icon"><i class="fa-brands fa-youtube"></i></div><div class="card-title">YouTube Prem.</div><div class="card-desc">Sin anuncios & Music</div></div>
-    <div class="card c-applemusic" data-cat="musica" onclick="App.verCuentas('Apple Music')"><div class="card-icon"><i class="fa-solid fa-music"></i></div><div class="card-title">Apple Music</div><div class="card-desc">Audio Lossless & Spat.</div></div>
-    <div class="card c-tidal" data-cat="musica" onclick="App.verCuentas('Tidal HiFi')"><div class="card-icon"><i class="fa-solid fa-gem"></i></div><div class="card-title">Tidal HiFi</div><div class="card-desc">Calidad Master / FLAC</div></div>
-    <div class="card c-deezer" data-cat="musica" onclick="App.verCuentas('Deezer')"><div class="card-icon"><i class="fa-brands fa-deezer"></i></div><div class="card-title">Deezer Prem.</div><div class="card-desc">HiFi Audio</div></div>
-    <div class="card c-amazonm" data-cat="musica" onclick="App.verCuentas('Amazon Music')"><div class="card-icon"><i class="fa-brands fa-amazon"></i></div><div class="card-title">Amazon Music</div><div class="card-desc">HD & Ultra HD</div></div>
-    <div class="card c-soundcloud" data-cat="musica" onclick="App.verCuentas('SoundCloud Go+')"><div class="card-icon"><i class="fa-brands fa-soundcloud"></i></div><div class="card-title">SoundCloud Go+</div><div class="card-desc">Tracks exclusivos</div></div>
-    <div class="card c-qobuz" data-cat="musica" onclick="App.verCuentas('Qobuz')"><div class="card-icon"><i class="fa-solid fa-compact-disc"></i></div><div class="card-title">Qobuz Studio</div><div class="card-desc">Studio Hi-Res 24-bit</div></div>
+    <div class="card c-spotify" data-cat="musica" onclick="App.verCuentas('Spotify')">
+      <div class="stock-badge" id="badge-Spotify">0</div>
+      <div class="card-icon"><i class="fa-brands fa-spotify"></i></div>
+      <div class="card-title">Spotify</div>
+      <div class="card-desc">Individual & Familiar</div>
+    </div>
+    <div class="card c-youtube" data-cat="musica" onclick="App.verCuentas('YouTube Music')">
+      <div class="stock-badge" id="badge-YouTube Music">0</div>
+      <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
+      <div class="card-title">YouTube Prem.</div>
+      <div class="card-desc">Sin anuncios & Music</div>
+    </div>
+    <div class="card c-applemusic" data-cat="musica" onclick="App.verCuentas('Apple Music')">
+      <div class="stock-badge" id="badge-Apple Music">0</div>
+      <div class="card-icon"><i class="fa-solid fa-music"></i></div>
+      <div class="card-title">Apple Music</div>
+      <div class="card-desc">Audio Lossless & Spat.</div>
+    </div>
+    <div class="card c-tidal" data-cat="musica" onclick="App.verCuentas('Tidal HiFi')">
+      <div class="stock-badge" id="badge-Tidal HiFi">0</div>
+      <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
+      <div class="card-title">Tidal HiFi</div>
+      <div class="card-desc">Calidad Master / FLAC</div>
+    </div>
+    <div class="card c-deezer" data-cat="musica" onclick="App.verCuentas('Deezer')">
+      <div class="stock-badge" id="badge-Deezer">0</div>
+      <div class="card-icon"><i class="fa-brands fa-deezer"></i></div>
+      <div class="card-title">Deezer Prem.</div>
+      <div class="card-desc">HiFi Audio</div>
+    </div>
+    <div class="card c-amazonm" data-cat="musica" onclick="App.verCuentas('Amazon Music')">
+      <div class="stock-badge" id="badge-Amazon Music">0</div>
+      <div class="card-icon"><i class="fa-brands fa-amazon"></i></div>
+      <div class="card-title">Amazon Music</div>
+      <div class="card-desc">HD & Ultra HD</div>
+    </div>
+    <div class="card c-soundcloud" data-cat="musica" onclick="App.verCuentas('SoundCloud Go+')">
+      <div class="stock-badge" id="badge-SoundCloud Go+">0</div>
+      <div class="card-icon"><i class="fa-brands fa-soundcloud"></i></div>
+      <div class="card-title">SoundCloud Go+</div>
+      <div class="card-desc">Tracks exclusivos</div>
+    </div>
+    <div class="card c-qobuz" data-cat="musica" onclick="App.verCuentas('Qobuz')">
+      <div class="stock-badge" id="badge-Qobuz">0</div>
+      <div class="card-icon"><i class="fa-solid fa-compact-disc"></i></div>
+      <div class="card-title">Qobuz Studio</div>
+      <div class="card-desc">Studio Hi-Res 24-bit</div>
+    </div>
 
     <!-- CINE & TV -->
-    <div class="card c-netflix" data-cat="video" onclick="App.verCuentas('Netflix')"><div class="card-icon"><i class="fa-solid fa-play"></i></div><div class="card-title">Netflix</div><div class="card-desc">Ultra HD 4K</div></div>
-    <div class="card c-hbo" data-cat="video" onclick="App.verCuentas('HBO Max')"><div class="card-icon"><i class="fa-solid fa-tv"></i></div><div class="card-title">HBO Max</div><div class="card-desc">Series & Cine</div></div>
-    <div class="card c-disney" data-cat="video" onclick="App.verCuentas('Disney+')"><div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="card-title">Disney+</div><div class="card-desc">Marvel & Star+</div></div>
-    <div class="card c-prime" data-cat="video" onclick="App.verCuentas('Prime Video')"><div class="card-icon"><i class="fa-solid fa-film"></i></div><div class="card-title">Prime Video</div><div class="card-desc">Amazon Originals</div></div>
-    <div class="card c-crunchy" data-cat="video" onclick="App.verCuentas('Crunchyroll')"><div class="card-icon"><i class="fa-solid fa-fire"></i></div><div class="card-title">Crunchyroll</div><div class="card-desc">Mega Fan Anime</div></div>
-    <div class="card c-paramount" data-cat="video" onclick="App.verCuentas('Paramount+')"><div class="card-icon"><i class="fa-solid fa-mountain"></i></div><div class="card-title">Paramount+</div><div class="card-desc">Cine & Deportes</div></div>
-    <div class="card c-apple" data-cat="video" onclick="App.verCuentas('Apple TV+')"><div class="card-icon"><i class="fa-brands fa-apple"></i></div><div class="card-title">Apple TV+</div><div class="card-desc">Originals 4K</div></div>
+    <div class="card c-netflix" data-cat="video" onclick="App.verCuentas('Netflix')">
+      <div class="stock-badge" id="badge-Netflix">0</div>
+      <div class="card-icon"><i class="fa-solid fa-play"></i></div>
+      <div class="card-title">Netflix</div>
+      <div class="card-desc">Ultra HD 4K</div>
+    </div>
+    <div class="card c-hbo" data-cat="video" onclick="App.verCuentas('HBO Max')">
+      <div class="stock-badge" id="badge-HBO Max">0</div>
+      <div class="card-icon"><i class="fa-solid fa-tv"></i></div>
+      <div class="card-title">HBO Max</div>
+      <div class="card-desc">Series & Cine</div>
+    </div>
+    <div class="card c-disney" data-cat="video" onclick="App.verCuentas('Disney+')">
+      <div class="stock-badge" id="badge-Disney+">0</div>
+      <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+      <div class="card-title">Disney+</div>
+      <div class="card-desc">Marvel & Star+</div>
+    </div>
+    <div class="card c-prime" data-cat="video" onclick="App.verCuentas('Prime Video')">
+      <div class="stock-badge" id="badge-Prime Video">0</div>
+      <div class="card-icon"><i class="fa-solid fa-film"></i></div>
+      <div class="card-title">Prime Video</div>
+      <div class="card-desc">Amazon Originals</div>
+    </div>
+    <div class="card c-crunchy" data-cat="video" onclick="App.verCuentas('Crunchyroll')">
+      <div class="stock-badge" id="badge-Crunchyroll">0</div>
+      <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
+      <div class="card-title">Crunchyroll</div>
+      <div class="card-desc">Mega Fan Anime</div>
+    </div>
+    <div class="card c-paramount" data-cat="video" onclick="App.verCuentas('Paramount+')">
+      <div class="stock-badge" id="badge-Paramount+">0</div>
+      <div class="card-icon"><i class="fa-solid fa-mountain"></i></div>
+      <div class="card-title">Paramount+</div>
+      <div class="card-desc">Cine & Deportes</div>
+    </div>
+    <div class="card c-apple" data-cat="video" onclick="App.verCuentas('Apple TV+')">
+      <div class="stock-badge" id="badge-Apple TV+">0</div>
+      <div class="card-icon"><i class="fa-brands fa-apple"></i></div>
+      <div class="card-title">Apple TV+</div>
+      <div class="card-desc">Originals 4K</div>
+    </div>
 
     <!-- PRO & GAMING -->
-    <div class="card c-canva" data-cat="otros" onclick="App.verCuentas('Canva Pro')"><div class="card-icon"><i class="fa-solid fa-palette"></i></div><div class="card-title">Canva Pro</div><div class="card-desc">Plantillas Pro</div></div>
-    <div class="card c-chatgpt" data-cat="otros" onclick="App.verCuentas('ChatGPT Plus')"><div class="card-icon"><i class="fa-solid fa-robot"></i></div><div class="card-title">ChatGPT Plus</div><div class="card-desc">GPT-4o & DALL-E</div></div>
-    <div class="card c-xbox" data-cat="otros" onclick="App.verCuentas('Xbox Game Pass')"><div class="card-icon"><i class="fa-brands fa-xbox"></i></div><div class="card-title">Xbox Game Pass</div><div class="card-desc">Ultimate Cloud</div></div>
-    <div class="card c-steam" data-cat="otros" onclick="App.verCuentas('Steam')"><div class="card-icon"><i class="fa-brands fa-steam"></i></div><div class="card-title">Steam</div><div class="card-desc">PC Gaming</div></div>
-    <div class="card c-playstation" data-cat="otros" onclick="App.verCuentas('PlayStation')"><div class="card-icon"><i class="fa-brands fa-playstation"></i></div><div class="card-title">PS Plus</div><div class="card-desc">Deluxe / Extra</div></div>
-    <div class="card c-discord" data-cat="otros" onclick="App.verCuentas('Discord Nitro')"><div class="card-icon"><i class="fa-brands fa-discord"></i></div><div class="card-title">Discord Nitro</div><div class="card-desc">Boost & Emojis</div></div>
+    <div class="card c-canva" data-cat="otros" onclick="App.verCuentas('Canva Pro')">
+      <div class="stock-badge" id="badge-Canva Pro">0</div>
+      <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
+      <div class="card-title">Canva Pro</div>
+      <div class="card-desc">Plantillas Pro</div>
+    </div>
+    <div class="card c-chatgpt" data-cat="otros" onclick="App.verCuentas('ChatGPT Plus')">
+      <div class="stock-badge" id="badge-ChatGPT Plus">0</div>
+      <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+      <div class="card-title">ChatGPT Plus</div>
+      <div class="card-desc">GPT-4o & DALL-E</div>
+    </div>
+    <div class="card c-xbox" data-cat="otros" onclick="App.verCuentas('Xbox Game Pass')">
+      <div class="stock-badge" id="badge-Xbox Game Pass">0</div>
+      <div class="card-icon"><i class="fa-brands fa-xbox"></i></div>
+      <div class="card-title">Xbox Game Pass</div>
+      <div class="card-desc">Ultimate Cloud</div>
+    </div>
+    <div class="card c-steam" data-cat="otros" onclick="App.verCuentas('Steam')">
+      <div class="stock-badge" id="badge-Steam">0</div>
+      <div class="card-icon"><i class="fa-brands fa-steam"></i></div>
+      <div class="card-title">Steam</div>
+      <div class="card-desc">PC Gaming</div>
+    </div>
+    <div class="card c-playstation" data-cat="otros" onclick="App.verCuentas('PlayStation')">
+      <div class="stock-badge" id="badge-PlayStation">0</div>
+      <div class="card-icon"><i class="fa-brands fa-playstation"></i></div>
+      <div class="card-title">PS Plus</div>
+      <div class="card-desc">Deluxe / Extra</div>
+    </div>
+    <div class="card c-discord" data-cat="otros" onclick="App.verCuentas('Discord Nitro')">
+      <div class="stock-badge" id="badge-Discord Nitro">0</div>
+      <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
+      <div class="card-title">Discord Nitro</div>
+      <div class="card-desc">Boost & Emojis</div>
+    </div>
   </div>
 
   <!-- MODAL PIN -->
@@ -81,7 +186,7 @@
   <!-- MODAL USUARIO -->
   <div class="modal-overlay" id="modalUser">
     <div class="modal-box">
-      <div style="display:inline-block; background:rgba(34, 197, 94, 0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); padding:4px 12px; border-radius:12px; font-size:11px; font-weight:700; margin-bottom:12px;">✅ Cuenta Disponible</div>
+      <div id="mUserBadge" style="display:inline-block; background:rgba(34, 197, 94, 0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); padding:4px 12px; border-radius:12px; font-size:11px; font-weight:700; margin-bottom:12px;">✅ Cuentas Disponibles</div>
       <div class="modal-title" id="mUserTitle">Plataforma</div>
       <div class="modal-sub">Credenciales oficiales</div>
       <div id="mUserContent"></div>
@@ -89,11 +194,12 @@
     </div>
   </div>
 
-  <!-- MODAL ADMIN -->
+  <!-- MODAL ADMIN MEJORADO CON SMART PASTE Y BULK -->
   <div class="modal-overlay" id="modalAdmin">
     <div class="modal-box">
-      <div class="modal-title">👑 BIENVENIDO CREADOR</div>
-      <div class="modal-sub">Gestor Interno de Cuentas</div>
+      <div class="modal-title">👑 PANEL CREADOR</div>
+      <div class="modal-sub">Gestión Rápida de Stock</div>
+
       <select class="admin-select" id="selPlataforma">
         <option value="Spotify">Spotify</option>
         <option value="Netflix">Netflix</option>
@@ -117,18 +223,36 @@
         <option value="PlayStation">PlayStation</option>
         <option value="Discord Nitro">Discord Nitro</option>
       </select>
-      <input type="text" class="admin-input" id="inpUsuario" placeholder="Correo / Usuario">
-      <input type="text" class="admin-input" id="inpClave" placeholder="Contraseña">
-      <button class="btn-action" onclick="App.guardarCuentaAdmin()">➕ Guardar Cuenta</button>
-      <div style="margin: 16px 0 8px 0; font-size: 13px; font-weight: 700; color: #a855f7;">CUENTAS EN MEMORIA:</div>
-      <div id="listaAdminCuentas" style="max-height: 150px; overflow-y: auto;"></div>
-      <button class="btn-action btn-secondary" onclick="App.cerrarModales()">Cerrar Sesión</button>
+
+      <!-- MODO DE ENTRADA RÁPIDA -->
+      <div style="background: rgba(168, 85, 247, 0.1); border: 1px dashed rgba(168, 85, 247, 0.4); border-radius: 10px; padding: 10px; margin-bottom: 12px;">
+        <div style="font-size: 11px; color: #d8b4fe; font-weight: 700; margin-bottom: 6px;">⚡ PEGADO RÁPIDO (correo:clave o en lista)</div>
+        <textarea id="inpSmartPaste" class="admin-input" rows="2" placeholder="Pega aquí: correo:clave&#10;o pega varias líneas para carga masiva" oninput="App.procesarSmartPaste(this)"></textarea>
+      </div>
+
+      <div id="camposIndividuales">
+        <input type="text" class="admin-input" id="inpUsuario" placeholder="Correo / Usuario">
+        <input type="text" class="admin-input" id="inpClave" placeholder="Contraseña">
+        <button class="btn-action" onclick="App.guardarCuentaAdmin()">➕ Guardar Cuenta</button>
+      </div>
+
+      <!-- BOTÓN PARA CARGA MASIVA SI DETECTA VARIAS LÍNEAS -->
+      <button class="btn-action" id="btnCargaMasiva" style="display: none; background: #9333ea;" onclick="App.guardarLoteMasivo()">🚀 Guardar Todo el Lote</button>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin: 16px 0 8px 0;">
+        <span style="font-size: 12px; font-weight: 700; color: #a855f7;">CUENTAS EN MEMORIA:</span>
+        <button onclick="App.exportarBackup()" style="background: none; border: none; color: #38bdf8; font-size: 11px; cursor: pointer; text-decoration: underline;">💾 Backup</button>
+      </div>
+
+      <div id="listaAdminCuentas" style="max-height: 140px; overflow-y: auto;"></div>
+
+      <button class="btn-action btn-secondary" onclick="App.cerrarModales()" style="margin-top: 10px;">Cerrar Sesión</button>
     </div>
   </div>
 
   <div id="toast">Copiado al portapapeles</div>
 
-  <!-- AQUÍ CONECTAMOS LA LÓGICA EXTERNA -->
+  <!-- LÓGICA -->
   <script src="app.js"></script>
 </body>
 </html>
