@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Astral Hub</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --wallpaper-url: url('https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp');
-      --card-bg: rgba(18, 14, 28, 0.82);
+      --card-bg: rgba(18, 14, 28, 0.85);
       --card-border: rgba(255, 255, 255, 0.12);
       --accent: linear-gradient(135deg, #a855f7, #ec4899);
     }
@@ -32,9 +31,58 @@
       min-height: 100vh;
       padding: 16px 14px 86px 14px;
       overflow-x: hidden;
-      transform: translateZ(0); /* Aceleración GPU */
+      transform: translateZ(0);
     }
-    
+
+    /* PANTALLA DE CARGA / SPLASH SCREEN MIKU */
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #1b122e 0%, #08060e 80%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s;
+    }
+    .splash-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid #ec4899;
+      box-shadow: 0 0 24px rgba(236, 72, 153, 0.6);
+      background-image: var(--wallpaper-url);
+      background-size: cover;
+      background-position: center;
+      animation: pulseLogo 1.6s infinite alternate;
+    }
+    @keyframes pulseLogo {
+      from { transform: scale(0.96); box-shadow: 0 0 15px rgba(168, 85, 247, 0.5); }
+      to { transform: scale(1.04); box-shadow: 0 0 30px rgba(236, 72, 153, 0.8); }
+    }
+    .splash-title {
+      margin-top: 18px;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, #ec4899, #8b5cf6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+    }
+    .splash-spinner {
+      margin-top: 20px;
+      width: 26px;
+      height: 26px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #a855f7;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* CABECERA */
     .header { text-align: center; margin-bottom: 16px; }
     .header h1 {
       font-size: 26px;
@@ -49,6 +97,7 @@
     }
     .header p { font-size: 12px; color: #f1f5f9; font-weight: 600; text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
 
+    /* BUSCADOR */
     .search-box {
       width: 100%;
       margin-bottom: 14px;
@@ -77,6 +126,7 @@
       font-size: 14px;
     }
 
+    /* PESTAÑAS */
     .tabs {
       display: flex;
       gap: 8px;
@@ -104,6 +154,7 @@
       box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
     }
 
+    /* CATÁLOGO */
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -147,7 +198,7 @@
       font-weight: 500;
     }
 
-    /* Colores por marca */
+    /* COLORES */
     .c-spotify .card-icon     { background: #1db954; color: #fff; }
     .c-youtube .card-icon     { background: #ff0000; color: #fff; }
     .c-applemusic .card-icon  { background: #fc3c44; color: #fff; }
@@ -172,70 +223,64 @@
     .c-playstation .card-icon { background: #003791; color: #fff; }
     .c-discord .card-icon     { background: #5865f2; color: #fff; }
 
-    /* Barra inferior */
-    .bottom-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 12px 16px;
-      background: rgba(11, 9, 20, 0.95);
-      border-top: 1px solid var(--card-border);
-      display: flex;
-      justify-content: center;
-      z-index: 100;
-    }
-    .btn-close {
-      width: 100%;
-      max-width: 400px;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      background: var(--accent);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* Modal emergente cuando tocas una app */
+    /* MODAL DE CREDENCIALES DIRECTAS */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.75);
+      background: rgba(0, 0, 0, 0.78);
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 16px;
     }
     .modal-box {
-      background: #140f24;
+      background: #151025;
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 20px;
-      padding: 24px 20px;
+      padding: 22px 18px;
       width: 100%;
       max-width: 340px;
       text-align: center;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.8);
       animation: popIn 0.2s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
     @keyframes popIn {
-      from { transform: scale(0.9); opacity: 0; }
+      from { transform: scale(0.92); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
-    .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
-    .modal-sub { font-size: 13px; color: #94a3b8; margin-bottom: 18px; }
-    .modal-badge {
-      display: inline-block;
-      background: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      border: 1px solid rgba(34, 197, 94, 0.3);
+    .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+    .modal-sub { font-size: 12px; color: #94a3b8; margin-bottom: 14px; }
+    
+    .account-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: left;
+      margin-bottom: 14px;
+    }
+    .field-lbl { font-size: 11px; color: #94a3b8; font-weight: 600; margin-bottom: 4px; }
+    .field-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: monospace;
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+    .btn-copy-tag {
+      background: #a855f7;
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      cursor: pointer;
     }
     .btn-action {
       display: block;
@@ -246,18 +291,41 @@
       background: var(--accent);
       color: #fff;
       font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 8px;
+      font-size: 13px;
       cursor: pointer;
-      text-decoration: none;
     }
     .btn-secondary {
       background: rgba(255, 255, 255, 0.08);
       color: #cbd5e1;
+      margin-top: 8px;
+    }
+
+    /* AVISO TOAST */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #10b981;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 20px;
+      display: none;
+      z-index: 10000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
     }
   </style>
 </head>
 <body>
+
+  <!-- PANTALLA DE CARGA CON MIKU -->
+  <div id="splash">
+    <div class="splash-avatar"></div>
+    <div class="splash-title">ASTRAL HUB</div>
+    <div class="splash-spinner"></div>
+  </div>
 
   <div class="header">
     <h1>✦ ASTRAL ✦</h1>
@@ -278,144 +346,157 @@
 
   <div class="grid" id="grid">
     <!-- MÚSICA -->
-    <div class="card c-spotify" data-cat="musica" onclick="abrirModal('Spotify', 'Música Premium sin anuncios y descargas')">
+    <div class="card c-spotify" data-cat="musica" onclick="mostrarCuenta('Spotify', 'spotify.premium@astral.vip', 'AstralPass2025')">
       <div class="card-icon"><i class="fa-brands fa-spotify"></i></div>
       <div class="card-title">Spotify</div>
       <div class="card-desc">Individual & Familiar</div>
     </div>
-    <div class="card c-youtube" data-cat="musica" onclick="abrirModal('YouTube Music', 'Reproducción en segundo plano & Music')">
+    <div class="card c-youtube" data-cat="musica" onclick="mostrarCuenta('YouTube Music', 'yt.premium@astral.vip', 'AstralYt77')">
       <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
       <div class="card-title">YouTube Prem.</div>
       <div class="card-desc">Sin anuncios & Music</div>
     </div>
-    <div class="card c-applemusic" data-cat="musica" onclick="abrirModal('Apple Music', 'Audio Espacial & Calidad Hi-Res Lossless')">
+    <div class="card c-applemusic" data-cat="musica" onclick="mostrarCuenta('Apple Music', 'apple.id@astral.vip', 'AppleSafe#01')">
       <div class="card-icon"><i class="fa-solid fa-music"></i></div>
       <div class="card-title">Apple Music</div>
       <div class="card-desc">Audio Lossless & Spat.</div>
     </div>
-    <div class="card c-tidal" data-cat="musica" onclick="abrirModal('Tidal HiFi', 'Sonido Master Quality FLAC')">
+    <div class="card c-tidal" data-cat="musica" onclick="mostrarCuenta('Tidal HiFi', 'tidal.master@astral.vip', 'TidalHiFi99')">
       <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
       <div class="card-title">Tidal HiFi</div>
       <div class="card-desc">Calidad Master / FLAC</div>
     </div>
-    <div class="card c-deezer" data-cat="musica" onclick="abrirModal('Deezer', 'Audio HiFi y millones de canciones')">
+    <div class="card c-deezer" data-cat="musica" onclick="mostrarCuenta('Deezer', 'deezer.hifi@astral.vip', 'Deezer2025*')">
       <div class="card-icon"><i class="fa-brands fa-deezer"></i></div>
       <div class="card-title">Deezer Prem.</div>
       <div class="card-desc">HiFi Audio</div>
     </div>
-    <div class="card c-amazonm" data-cat="musica" onclick="abrirModal('Amazon Music', 'Música HD y Ultra HD')">
+    <div class="card c-amazonm" data-cat="musica" onclick="mostrarCuenta('Amazon Music', 'amz.music@astral.vip', 'AmzSound44')">
       <div class="card-icon"><i class="fa-brands fa-amazon"></i></div>
       <div class="card-title">Amazon Music</div>
       <div class="card-desc">HD & Ultra HD</div>
     </div>
-    <div class="card c-soundcloud" data-cat="musica" onclick="abrirModal('SoundCloud Go+', 'Acceso sin conexión y tracks completos')">
+    <div class="card c-soundcloud" data-cat="musica" onclick="mostrarCuenta('SoundCloud Go+', 'sc.vip@astral.vip', 'CloudBeat5')">
       <div class="card-icon"><i class="fa-brands fa-soundcloud"></i></div>
       <div class="card-title">SoundCloud Go+</div>
       <div class="card-desc">Tracks exclusivos</div>
     </div>
-    <div class="card c-qobuz" data-cat="musica" onclick="abrirModal('Qobuz', 'Streaming audiófilo 24-bit hasta 192 kHz')">
+    <div class="card c-qobuz" data-cat="musica" onclick="mostrarCuenta('Qobuz', 'qobuz.studio@astral.vip', 'QobuzHiRes1')">
       <div class="card-icon"><i class="fa-solid fa-compact-disc"></i></div>
       <div class="card-title">Qobuz Studio</div>
       <div class="card-desc">Studio Hi-Res 24-bit</div>
     </div>
 
     <!-- CINE & TV -->
-    <div class="card c-netflix" data-cat="video" onclick="abrirModal('Netflix', 'Cuentas Ultra HD 4K Pantallas privadas')">
+    <div class="card c-netflix" data-cat="video" onclick="mostrarCuenta('Netflix', 'netflix.4k@astral.vip', 'AstralFlix!88')">
       <div class="card-icon"><i class="fa-solid fa-play"></i></div>
       <div class="card-title">Netflix</div>
       <div class="card-desc">Ultra HD 4K</div>
     </div>
-    <div class="card c-hbo" data-cat="video" onclick="abrirModal('HBO Max', 'Max Originals, Warner Bros y Cine')">
+    <div class="card c-hbo" data-cat="video" onclick="mostrarCuenta('HBO Max', 'hbo.max@astral.vip', 'MaxStream22')">
       <div class="card-icon"><i class="fa-solid fa-tv"></i></div>
       <div class="card-title">HBO Max</div>
       <div class="card-desc">Series & Cine</div>
     </div>
-    <div class="card c-disney" data-cat="video" onclick="abrirModal('Disney+', 'Todo Marvel, Pixar, Star Wars & Star+')">
+    <div class="card c-disney" data-cat="video" onclick="mostrarCuenta('Disney+', 'disney.plus@astral.vip', 'MagicStar2025')">
       <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
       <div class="card-title">Disney+</div>
       <div class="card-desc">Marvel & Star+</div>
     </div>
-    <div class="card c-prime" data-cat="video" onclick="abrirModal('Prime Video', 'Series exclusivas y envíos Prime')">
+    <div class="card c-prime" data-cat="video" onclick="mostrarCuenta('Prime Video', 'prime.video@astral.vip', 'PrimeFast44')">
       <div class="card-icon"><i class="fa-solid fa-film"></i></div>
       <div class="card-title">Prime Video</div>
       <div class="card-desc">Amazon Originals</div>
     </div>
-    <div class="card c-crunchy" data-cat="video" onclick="abrirModal('Crunchyroll', 'Mega Fan anime sin anuncios')">
+    <div class="card c-crunchy" data-cat="video" onclick="mostrarCuenta('Crunchyroll', 'crunchy.fan@astral.vip', 'AnimePass00')">
       <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
       <div class="card-title">Crunchyroll</div>
       <div class="card-desc">Mega Fan Anime</div>
     </div>
-    <div class="card c-paramount" data-cat="video" onclick="abrirModal('Paramount+', 'Cine, series y fútbol en vivo')">
+    <div class="card c-paramount" data-cat="video" onclick="mostrarCuenta('Paramount+', 'paramount.cine@astral.vip', 'Paramount78')">
       <div class="card-icon"><i class="fa-solid fa-mountain"></i></div>
       <div class="card-title">Paramount+</div>
       <div class="card-desc">Cine & Deportes</div>
     </div>
-    <div class="card c-apple" data-cat="video" onclick="abrirModal('Apple TV+', 'Producciones exclusivas en 4K HDR')">
+    <div class="card c-apple" data-cat="video" onclick="mostrarCuenta('Apple TV+', 'appletv@astral.vip', 'TvApple4k*')">
       <div class="card-icon"><i class="fa-brands fa-apple"></i></div>
       <div class="card-title">Apple TV+</div>
       <div class="card-desc">Originals 4K</div>
     </div>
 
     <!-- PRO & GAMING -->
-    <div class="card c-canva" data-cat="otros" onclick="abrirModal('Canva Pro', 'Herramientas de diseño y kit de marca ilimitado')">
+    <div class="card c-canva" data-cat="otros" onclick="mostrarCuenta('Canva Pro', 'canva.team@astral.vip', 'DesignPro9')">
       <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
       <div class="card-title">Canva Pro</div>
       <div class="card-desc">Plantillas Pro</div>
     </div>
-    <div class="card c-chatgpt" data-cat="otros" onclick="abrirModal('ChatGPT Plus', 'Acceso a GPT-4o, DALL-E y Canvas')">
+    <div class="card c-chatgpt" data-cat="otros" onclick="mostrarCuenta('ChatGPT Plus', 'ai.chatgpt@astral.vip', 'GptOpenAI2025')">
       <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
       <div class="card-title">ChatGPT Plus</div>
       <div class="card-desc">GPT-4o & DALL-E</div>
     </div>
-    <div class="card c-xbox" data-cat="otros" onclick="abrirModal('Xbox Game Pass', 'Juegos en la nube y catálogo completo')">
+    <div class="card c-xbox" data-cat="otros" onclick="mostrarCuenta('Xbox Game Pass', 'xbox.cloud@astral.vip', 'GamePassUltimate')">
       <div class="card-icon"><i class="fa-brands fa-xbox"></i></div>
       <div class="card-title">Xbox Game Pass</div>
       <div class="card-desc">Ultimate Cloud</div>
     </div>
-    <div class="card c-steam" data-cat="otros" onclick="abrirModal('Steam', 'Recargas y cuentas con juegos')">
+    <div class="card c-steam" data-cat="otros" onclick="mostrarCuenta('Steam', 'steam.gaming@astral.vip', 'SteamVault23')">
       <div class="card-icon"><i class="fa-brands fa-steam"></i></div>
       <div class="card-title">Steam</div>
       <div class="card-desc">PC Gaming</div>
     </div>
-    <div class="card c-playstation" data-cat="otros" onclick="abrirModal('PlayStation', 'PS Plus Deluxe / Extra y membresías')">
+    <div class="card c-playstation" data-cat="otros" onclick="mostrarCuenta('PlayStation', 'psn.deluxe@astral.vip', 'PlayStation55')">
       <div class="card-icon"><i class="fa-brands fa-playstation"></i></div>
       <div class="card-title">PS Plus</div>
       <div class="card-desc">Deluxe / Extra</div>
     </div>
-    <div class="card c-discord" data-cat="otros" onclick="abrirModal('Discord Nitro', 'Streaming 4K, emojis globales y mejoras')">
+    <div class="card c-discord" data-cat="otros" onclick="mostrarCuenta('Discord Nitro', 'discord.nitro@astral.vip', 'NitroBoost77')">
       <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
       <div class="card-title">Discord Nitro</div>
       <div class="card-desc">Boost & Emojis</div>
     </div>
   </div>
 
-  <div class="bottom-bar">
-    <button class="btn-close" onclick="cerrar()">Cerrar Catálogo</button>
-  </div>
-
-  <!-- Modal Emergente -->
+  <!-- MODAL DE ENTREGA DIRECTA -->
   <div class="modal-overlay" id="modal" onclick="cerrarModalFuera(event)">
     <div class="modal-box">
-      <div class="modal-badge">✅ Stock Disponible</div>
+      <div style="display:inline-block; background:rgba(34, 197, 94, 0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); padding:4px 12px; border-radius:12px; font-size:11px; font-weight:700; margin-bottom:12px;">✅ Cuenta Lista</div>
       <div class="modal-title" id="mTitle">Plataforma</div>
-      <div class="modal-sub" id="mDesc">Descripción del servicio</div>
-      <button class="btn-action" onclick="solicitarServicio()">⚡ Obtener Cuenta</button>
-      <button class="btn-action btn-secondary" onclick="cerrarModal()">Volver al Catálogo</button>
+      <div class="modal-sub">Credenciales de acceso directo</div>
+      
+      <div class="account-card">
+        <div class="field-lbl">USUARIO / CORREO:</div>
+        <div class="field-box">
+          <span id="txtUser">cargando...</span>
+          <button class="btn-copy-tag" onclick="copiarTexto('txtUser')">Copiar</button>
+        </div>
+        <div class="field-lbl">CONTRASEÑA:</div>
+        <div class="field-box">
+          <span id="txtPass">cargando...</span>
+          <button class="btn-copy-tag" onclick="copiarTexto('txtPass')">Copiar</button>
+        </div>
+      </div>
+
+      <button class="btn-action btn-secondary" onclick="cerrarModal()">Cerrar</button>
     </div>
   </div>
 
+  <div id="toast">Copiado al portapapeles</div>
+
   <script>
-    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-    if (tg) {
-      try { tg.ready(); tg.expand(); } catch(e){}
-    }
+    // Quitar splash screen al cargar
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash');
+        splash.style.opacity = '0';
+        setTimeout(() => splash.style.display = 'none', 500);
+      }, 900);
+    });
 
-    let servicioActual = '';
-
-    function abrirModal(nombre, desc) {
-      servicioActual = nombre;
+    function mostrarCuenta(nombre, user, pass) {
       document.getElementById('mTitle').innerText = nombre;
-      document.getElementById('mDesc').innerText = desc;
+      document.getElementById('txtUser').innerText = user;
+      document.getElementById('txtPass').innerText = pass;
       document.getElementById('modal').style.display = 'flex';
     }
 
@@ -427,23 +508,21 @@
       if (e.target.id === 'modal') cerrarModal();
     }
 
-    function solicitarServicio() {
-      if (tg && tg.initData) {
-        // Si está en Telegram Mini App
-        tg.sendData(servicioActual);
-        tg.close();
+    function copiarTexto(elementId) {
+      const texto = document.getElementById(elementId).innerText;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(texto);
       } else {
-        // Si está en la APK, abre directamente el Bot en Telegram
-        window.open(`https://t.me/Astralhub_bot?start=${encodeURIComponent(servicioActual)}`, '_blank');
+        const ta = document.createElement('textarea');
+        ta.value = texto;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
       }
-    }
-
-    function cerrar() {
-      if (tg) {
-        try { tg.close(); } catch(e){}
-      } else {
-        window.history.back();
-      }
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 1800);
     }
 
     function filtrar(cat, btn) {
