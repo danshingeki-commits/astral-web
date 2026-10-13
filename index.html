@@ -8,18 +8,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg: #0b0914;
-      --card-bg: rgba(255, 255, 255, 0.04);
-      --card-border: rgba(255, 255, 255, 0.08);
+      --wallpaper-url: url('https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp');
+      --card-bg: rgba(18, 14, 28, 0.75);
+      --card-border: rgba(255, 255, 255, 0.1);
       --accent: linear-gradient(135deg, #a855f7, #ec4899);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    
     body {
-      background: radial-gradient(circle at 50% 0%, #1e1035 0%, var(--bg) 70%);
+      background-color: #0b0914;
+      background-image: linear-gradient(to bottom, rgba(11, 9, 20, 0.82), rgba(11, 9, 20, 0.94)), var(--wallpaper-url);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       color: #fff;
       min-height: 100vh;
-      padding: 16px 14px 80px 14px;
+      padding: 16px 14px 84px 14px;
     }
+    
     .header { text-align: center; margin-bottom: 18px; }
     .header h1 {
       font-size: 26px;
@@ -31,9 +37,8 @@
       text-transform: uppercase;
       margin-bottom: 4px;
     }
-    .header p { font-size: 12px; color: #94a3b8; font-weight: 500; }
+    .header p { font-size: 12px; color: #cbd5e1; font-weight: 500; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
 
-    /* Barra de búsqueda */
     .search-box {
       width: 100%;
       margin-bottom: 14px;
@@ -41,10 +46,11 @@
     }
     .search-box input {
       width: 100%;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(15, 12, 24, 0.75);
+      backdrop-filter: blur(8px);
       border: 1px solid var(--card-border);
       padding: 12px 14px 12px 38px;
-      border-radius: 12px;
+      border-radius: 14px;
       color: #fff;
       font-size: 14px;
       outline: none;
@@ -52,18 +58,18 @@
     }
     .search-box input:focus {
       border-color: #a855f7;
-      background: rgba(255, 255, 255, 0.09);
+      background: rgba(20, 16, 32, 0.9);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
     }
     .search-box i {
       position: absolute;
       left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      color: #64748b;
+      color: #94a3b8;
       font-size: 14px;
     }
 
-    /* Pestañas de categorías */
     .tabs {
       display: flex;
       gap: 8px;
@@ -74,9 +80,10 @@
     }
     .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(20, 16, 32, 0.7);
+      backdrop-filter: blur(6px);
       border: 1px solid var(--card-border);
-      color: #94a3b8;
+      color: #cbd5e1;
       padding: 8px 14px;
       border-radius: 20px;
       font-size: 12px;
@@ -89,10 +96,9 @@
       background: #a855f7;
       color: #fff;
       border-color: #a855f7;
-      box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.5);
     }
 
-    /* Grid de tarjetas */
     .grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -100,6 +106,7 @@
     }
     .card {
       background: var(--card-bg);
+      backdrop-filter: blur(10px);
       border: 1px solid var(--card-border);
       border-radius: 16px;
       padding: 14px 12px;
@@ -109,12 +116,9 @@
       text-align: center;
       cursor: pointer;
       position: relative;
-      overflow: hidden;
       transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
     }
-    .card:active {
-      transform: scale(0.96);
-    }
+    .card:active { transform: scale(0.96); }
     .card-icon {
       width: 44px;
       height: 44px;
@@ -124,7 +128,7 @@
       justify-content: center;
       font-size: 22px;
       margin-bottom: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
     .card-title {
       font-size: 14px;
@@ -134,36 +138,43 @@
     }
     .card-desc {
       font-size: 11px;
-      color: #64748b;
+      color: #94a3b8;
       font-weight: 500;
     }
 
-    /* Colores oficiales por marca */
-    .c-spotify .card-icon { background: #1db954; color: #fff; }
-    .c-netflix .card-icon { background: #e50914; color: #fff; }
-    .c-hbo .card-icon     { background: #5822b4; color: #fff; }
-    .c-prime .card-icon   { background: #00a8e1; color: #fff; }
-    .c-disney .card-icon  { background: #113ccf; color: #fff; }
-    .c-crunchy .card-icon { background: #f47521; color: #fff; }
-    .c-apple .card-icon   { background: #333333; color: #fff; }
-    .c-paramount .card-icon { background: #0064ff; color: #fff; }
-    .c-youtube .card-icon { background: #ff0000; color: #fff; }
-    .c-canva .card-icon   { background: #00c4cc; color: #fff; }
-    .c-chatgpt .card-icon { background: #10a37f; color: #fff; }
-    .c-steam .card-icon   { background: #171a21; color: #66c0f4; border: 1px solid #66c0f4; }
-    .c-xbox .card-icon    { background: #107c10; color: #fff; }
-    .c-playstation .card-icon { background: #003791; color: #fff; }
-    .c-discord .card-icon { background: #5865f2; color: #fff; }
+    /* Colores por marca */
+    .c-spotify .card-icon     { background: #1db954; color: #fff; }
+    .c-youtube .card-icon     { background: #ff0000; color: #fff; }
+    .c-applemusic .card-icon  { background: #fc3c44; color: #fff; }
+    .c-tidal .card-icon       { background: #000000; color: #00ffff; border: 1px solid #00ffff; }
+    .c-deezer .card-icon      { background: #a238ff; color: #fff; }
+    .c-amazonm .card-icon     { background: #25d1da; color: #111; }
+    .c-soundcloud .card-icon  { background: #ff5500; color: #fff; }
+    .c-qobuz .card-icon       { background: #002b49; color: #00a8e1; }
 
-    /* Barra inferior flotante */
+    .c-netflix .card-icon     { background: #e50914; color: #fff; }
+    .c-hbo .card-icon         { background: #5822b4; color: #fff; }
+    .c-disney .card-icon      { background: #113ccf; color: #fff; }
+    .c-prime .card-icon       { background: #00a8e1; color: #fff; }
+    .c-crunchy .card-icon     { background: #f47521; color: #fff; }
+    .c-paramount .card-icon   { background: #0064ff; color: #fff; }
+    .c-apple .card-icon       { background: #222222; color: #fff; }
+
+    .c-canva .card-icon       { background: #00c4cc; color: #fff; }
+    .c-chatgpt .card-icon     { background: #10a37f; color: #fff; }
+    .c-xbox .card-icon        { background: #107c10; color: #fff; }
+    .c-steam .card-icon       { background: #171a21; color: #66c0f4; border: 1px solid #66c0f4; }
+    .c-playstation .card-icon { background: #003791; color: #fff; }
+    .c-discord .card-icon     { background: #5865f2; color: #fff; }
+
     .bottom-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       padding: 12px 16px;
-      background: rgba(11, 9, 20, 0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(11, 9, 20, 0.88);
+      backdrop-filter: blur(14px);
       border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: center;
@@ -196,27 +207,69 @@
 
   <div class="tabs">
     <button class="tab-btn active" onclick="filtrar('todos', this)">🌟 Todos</button>
-    <button class="tab-btn" onclick="filtrar('video', this)">🎬 Cine & TV</button>
     <button class="tab-btn" onclick="filtrar('musica', this)">🎵 Música</button>
+    <button class="tab-btn" onclick="filtrar('video', this)">🎬 Cine & TV</button>
     <button class="tab-btn" onclick="filtrar('otros', this)">⚡ Pro & Gaming</button>
   </div>
 
   <div class="grid" id="grid">
+    <!-- MÚSICA -->
+    <div class="card c-spotify" data-cat="musica" onclick="seleccionar('Spotify')">
+      <div class="card-icon"><i class="fa-brands fa-spotify"></i></div>
+      <div class="card-title">Spotify</div>
+      <div class="card-desc">Individual & Familiar</div>
+    </div>
+    <div class="card c-youtube" data-cat="musica" onclick="seleccionar('YouTube Music')">
+      <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
+      <div class="card-title">YouTube Prem.</div>
+      <div class="card-desc">Sin anuncios & Music</div>
+    </div>
+    <div class="card c-applemusic" data-cat="musica" onclick="seleccionar('Apple Music')">
+      <div class="card-icon"><i class="fa-solid fa-music"></i></div>
+      <div class="card-title">Apple Music</div>
+      <div class="card-desc">Audio Lossless & Spat.</div>
+    </div>
+    <div class="card c-tidal" data-cat="musica" onclick="seleccionar('Tidal')">
+      <div class="card-icon"><i class="fa-solid fa-gem"></i></div>
+      <div class="card-title">Tidal HiFi</div>
+      <div class="card-desc">Calidad Master / FLAC</div>
+    </div>
+    <div class="card c-deezer" data-cat="musica" onclick="seleccionar('Deezer')">
+      <div class="card-icon"><i class="fa-brands fa-deezer"></i></div>
+      <div class="card-title">Deezer Prem.</div>
+      <div class="card-desc">HiFi Audio</div>
+    </div>
+    <div class="card c-amazonm" data-cat="musica" onclick="seleccionar('Amazon Music')">
+      <div class="card-icon"><i class="fa-brands fa-amazon"></i></div>
+      <div class="card-title">Amazon Music</div>
+      <div class="card-desc">HD & Ultra HD</div>
+    </div>
+    <div class="card c-soundcloud" data-cat="musica" onclick="seleccionar('SoundCloud')">
+      <div class="card-icon"><i class="fa-brands fa-soundcloud"></i></div>
+      <div class="card-title">SoundCloud Go+</div>
+      <div class="card-desc">Tracks exclusivos</div>
+    </div>
+    <div class="card c-qobuz" data-cat="musica" onclick="seleccionar('Qobuz')">
+      <div class="card-icon"><i class="fa-solid fa-compact-disc"></i></div>
+      <div class="card-title">Qobuz Studio</div>
+      <div class="card-desc">Studio Hi-Res 24-bit</div>
+    </div>
+
     <!-- CINE & TV -->
     <div class="card c-netflix" data-cat="video" onclick="seleccionar('Netflix')">
       <div class="card-icon"><i class="fa-solid fa-play"></i></div>
       <div class="card-title">Netflix</div>
-      <div class="card-desc">Series y Películas</div>
+      <div class="card-desc">Ultra HD 4K</div>
     </div>
     <div class="card c-hbo" data-cat="video" onclick="seleccionar('HBO Max')">
       <div class="card-icon"><i class="fa-solid fa-tv"></i></div>
       <div class="card-title">HBO Max</div>
-      <div class="card-desc">Max Originals</div>
+      <div class="card-desc">Series & Cine</div>
     </div>
     <div class="card c-disney" data-cat="video" onclick="seleccionar('Disney+')">
       <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
       <div class="card-title">Disney+</div>
-      <div class="card-desc">Marvel, Pixar & Star</div>
+      <div class="card-desc">Marvel & Star+</div>
     </div>
     <div class="card c-prime" data-cat="video" onclick="seleccionar('Prime Video')">
       <div class="card-icon"><i class="fa-solid fa-film"></i></div>
@@ -226,7 +279,7 @@
     <div class="card c-crunchy" data-cat="video" onclick="seleccionar('Crunchyroll')">
       <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
       <div class="card-title">Crunchyroll</div>
-      <div class="card-desc">Anime Simulcast</div>
+      <div class="card-desc">Mega Fan Anime</div>
     </div>
     <div class="card c-paramount" data-cat="video" onclick="seleccionar('Paramount+')">
       <div class="card-icon"><i class="fa-solid fa-mountain"></i></div>
@@ -236,36 +289,24 @@
     <div class="card c-apple" data-cat="video" onclick="seleccionar('Apple TV+')">
       <div class="card-icon"><i class="fa-brands fa-apple"></i></div>
       <div class="card-title">Apple TV+</div>
-      <div class="card-desc">Producciones 4K</div>
+      <div class="card-desc">Originals 4K</div>
     </div>
 
-    <!-- MÚSICA -->
-    <div class="card c-spotify" data-cat="musica" onclick="seleccionar('Spotify')">
-      <div class="card-icon"><i class="fa-brands fa-spotify"></i></div>
-      <div class="card-title">Spotify</div>
-      <div class="card-desc">Música Premium</div>
-    </div>
-    <div class="card c-youtube" data-cat="musica" onclick="seleccionar('YouTube Music')">
-      <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
-      <div class="card-title">YouTube Prem.</div>
-      <div class="card-desc">Música sin anuncios</div>
-    </div>
-
-    <!-- OTROS & GAMING -->
+    <!-- PRO & GAMING -->
     <div class="card c-canva" data-cat="otros" onclick="seleccionar('Canva')">
       <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
       <div class="card-title">Canva Pro</div>
-      <div class="card-desc">Diseño Gráfico</div>
+      <div class="card-desc">Plantillas Pro</div>
     </div>
     <div class="card c-chatgpt" data-cat="otros" onclick="seleccionar('ChatGPT')">
       <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
       <div class="card-title">ChatGPT Plus</div>
-      <div class="card-desc">IA & Análisis</div>
+      <div class="card-desc">GPT-4o & DALL-E</div>
     </div>
     <div class="card c-xbox" data-cat="otros" onclick="seleccionar('Xbox')">
       <div class="card-icon"><i class="fa-brands fa-xbox"></i></div>
-      <div class="card-title">Game Pass</div>
-      <div class="card-desc">Cientos de juegos</div>
+      <div class="card-title">Xbox Game Pass</div>
+      <div class="card-desc">Ultimate Cloud</div>
     </div>
     <div class="card c-steam" data-cat="otros" onclick="seleccionar('Steam')">
       <div class="card-icon"><i class="fa-brands fa-steam"></i></div>
@@ -275,12 +316,12 @@
     <div class="card c-playstation" data-cat="otros" onclick="seleccionar('PlayStation')">
       <div class="card-icon"><i class="fa-brands fa-playstation"></i></div>
       <div class="card-title">PS Plus</div>
-      <div class="card-desc">Online & Juegos</div>
+      <div class="card-desc">Deluxe / Extra</div>
     </div>
     <div class="card c-discord" data-cat="otros" onclick="seleccionar('Discord')">
       <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
       <div class="card-title">Discord Nitro</div>
-      <div class="card-desc">Boosts & Emojis</div>
+      <div class="card-desc">Boost & Emojis</div>
     </div>
   </div>
 
@@ -321,8 +362,9 @@
       const q = document.getElementById('searchInput').value.toLowerCase();
       const cards = document.querySelectorAll('.card');
       cards.forEach(card => {
-        const text = card.querySelector('.card-title').innerText.toLowerCase();
-        if (text.includes(q)) {
+        const title = card.querySelector('.card-title').innerText.toLowerCase();
+        const desc = card.querySelector('.card-desc').innerText.toLowerCase();
+        if (title.includes(q) || desc.includes(q)) {
           card.style.display = 'flex';
         } else {
           card.style.display = 'none';
