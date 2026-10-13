@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Astral Hub</title>
   
   <link rel="preload" as="image" href="https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp">
@@ -24,6 +24,11 @@
       -webkit-tap-highlight-color: transparent; 
     }
     
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
     body {
       background-color: #0b0914;
       background-image: linear-gradient(to bottom, rgba(11, 9, 20, 0.40), rgba(11, 9, 20, 0.70)), var(--wallpaper-url);
@@ -38,45 +43,61 @@
       transform: translateZ(0);
     }
 
-    /* SPLASH SCREEN FLUIDO Y ELEGANTE */
+    /* BLOQUEO DE SCROLL MIENTRAS CARGA */
+    body.loading {
+      overflow: hidden !important;
+      height: 100vh !important;
+    }
+
+    /* PANTALLA DE CARGA 100% PANTALLA COMPLETA HERMÉTICA */
     #splash {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       width: 100vw;
-      height: 100vh;
-      background: radial-gradient(circle at center, #1b122e 0%, #08060e 85%);
-      z-index: 99999;
+      height: 100%;
+      min-height: -webkit-fill-available;
+      background: radial-gradient(circle at center, #181028 0%, #07050d 90%);
+      z-index: 999999;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.75s var(--ease-smooth), transform 0.75s var(--ease-smooth), visibility 0.75s;
+      transition: opacity 0.7s var(--ease-smooth), transform 0.7s var(--ease-smooth);
     }
     #splash.hidden {
       opacity: 0;
-      transform: scale(1.04);
+      transform: scale(1.05);
       pointer-events: none;
     }
-    .splash-avatar {
-      width: 124px;
-      height: 124px;
+    .splash-avatar-box {
+      width: 125px;
+      height: 125px;
       border-radius: 50%;
       border: 3px solid #ec4899;
-      box-shadow: 0 0 28px rgba(236, 72, 153, 0.7);
-      background-image: var(--wallpaper-url);
-      background-size: cover;
-      background-position: center;
+      box-shadow: 0 0 30px rgba(236, 72, 153, 0.8), 0 0 10px rgba(168, 85, 247, 0.5);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       animation: pulseLogo 2s infinite alternate ease-in-out;
+    }
+    .splash-avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     @keyframes pulseLogo {
       from { transform: scale(0.96); box-shadow: 0 0 16px rgba(168, 85, 247, 0.5); }
-      to { transform: scale(1.04); box-shadow: 0 0 34px rgba(236, 72, 153, 0.85); }
+      to { transform: scale(1.04); box-shadow: 0 0 35px rgba(236, 72, 153, 0.9); }
     }
     .splash-title {
-      margin-top: 18px;
+      margin-top: 20px;
       font-size: 24px;
       font-weight: 900;
-      letter-spacing: 3px;
+      letter-spacing: 4px;
       background: linear-gradient(90deg, #ec4899, #8b5cf6, #06b6d4);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -84,8 +105,8 @@
     }
     .splash-spinner {
       margin-top: 18px;
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       border: 3px solid rgba(255, 255, 255, 0.12);
       border-top-color: #a855f7;
       border-radius: 50%;
@@ -242,13 +263,13 @@
     .c-playstation .card-icon { background: #003791; color: #fff; }
     .c-discord .card-icon     { background: #5865f2; color: #fff; }
 
-    /* MODALES CON ANIMACIÓN SUAVE Y ELEGANTE */
+    /* MODALES CENTRADOS */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100%;
       background: rgba(0, 0, 0, 0);
       backdrop-filter: blur(0px);
       z-index: 1000;
@@ -408,11 +429,13 @@
     }
   </style>
 </head>
-<body>
+<body class="loading">
 
-  <!-- SPLASH SCREEN CON DESVANECIMIENTO SUAVE -->
+  <!-- PANTALLA DE CARGA 100% PANTALLA COMPLETA HERMÉTICA -->
   <div id="splash">
-    <div class="splash-avatar"></div>
+    <div class="splash-avatar-box">
+      <img src="https://i.ibb.co/k284BDnV/5b338a180e0cfed1e1b9dbfb38282329.webp" alt="Miku">
+    </div>
     <div class="splash-title">ASTRAL HUB</div>
     <div class="splash-spinner"></div>
   </div>
@@ -530,298 +553,4 @@
       <div class="card-title">Xbox Game Pass</div>
       <div class="card-desc">Ultimate Cloud</div>
     </div>
-    <div class="card c-steam" data-cat="otros" onclick="verCuentas('Steam')">
-      <div class="card-icon"><i class="fa-brands fa-steam"></i></div>
-      <div class="card-title">Steam</div>
-      <div class="card-desc">PC Gaming</div>
-    </div>
-    <div class="card c-playstation" data-cat="otros" onclick="verCuentas('PlayStation')">
-      <div class="card-icon"><i class="fa-brands fa-playstation"></i></div>
-      <div class="card-title">PS Plus</div>
-      <div class="card-desc">Deluxe / Extra</div>
-    </div>
-    <div class="card c-discord" data-cat="otros" onclick="verCuentas('Discord Nitro')">
-      <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
-      <div class="card-title">Discord Nitro</div>
-      <div class="card-desc">Boost & Emojis</div>
-    </div>
-  </div>
-
-  <!-- MODAL PIN -->
-  <div class="modal-overlay" id="modalPin">
-    <div class="modal-box">
-      <div class="modal-title">🔐 ACCESO PRIVADO</div>
-      <div class="modal-sub">Ingresa la clave de acceso</div>
-      <input type="password" class="admin-input" id="inpPin" placeholder="••••••••" style="text-align: center; letter-spacing: 4px; font-size: 16px;">
-      <button class="btn-action" onclick="validarPin()">Entrar</button>
-      <button class="btn-action btn-secondary" onclick="cerrarModales()">Cancelar</button>
-    </div>
-  </div>
-
-  <!-- MODAL USUARIO -->
-  <div class="modal-overlay" id="modalUser">
-    <div class="modal-box">
-      <div style="display:inline-block; background:rgba(34, 197, 94, 0.15); color:#4ade80; border:1px solid rgba(34,197,94,0.3); padding:4px 12px; border-radius:12px; font-size:11px; font-weight:700; margin-bottom:12px;">✅ Cuenta Disponible</div>
-      <div class="modal-title" id="mUserTitle">Plataforma</div>
-      <div class="modal-sub">Credenciales oficiales</div>
-      
-      <div id="mUserContent"></div>
-
-      <button class="btn-action btn-secondary" onclick="cerrarModales()">Cerrar</button>
-    </div>
-  </div>
-
-  <!-- MODAL ADMIN -->
-  <div class="modal-overlay" id="modalAdmin">
-    <div class="modal-box">
-      <div class="modal-title">👑 BIENVENIDO CREADOR</div>
-      <div class="modal-sub">Gestor Interno de Cuentas</div>
-
-      <select class="admin-select" id="selPlataforma">
-        <option value="Spotify">Spotify</option>
-        <option value="YouTube Music">YouTube Music</option>
-        <option value="Apple Music">Apple Music</option>
-        <option value="Tidal HiFi">Tidal HiFi</option>
-        <option value="Deezer">Deezer</option>
-        <option value="Amazon Music">Amazon Music</option>
-        <option value="SoundCloud Go+">SoundCloud Go+</option>
-        <option value="Qobuz">Qobuz</option>
-        <option value="Netflix">Netflix</option>
-        <option value="HBO Max">HBO Max</option>
-        <option value="Disney+">Disney+</option>
-        <option value="Prime Video">Prime Video</option>
-        <option value="Crunchyroll">Crunchyroll</option>
-        <option value="Paramount+">Paramount+</option>
-        <option value="Apple TV+">Apple TV+</option>
-        <option value="Canva Pro">Canva Pro</option>
-        <option value="ChatGPT Plus">ChatGPT Plus</option>
-        <option value="Xbox Game Pass">Xbox Game Pass</option>
-        <option value="Steam">Steam</option>
-        <option value="PlayStation">PlayStation</option>
-        <option value="Discord Nitro">Discord Nitro</option>
-      </select>
-
-      <input type="text" class="admin-input" id="inpUsuario" placeholder="Correo / Usuario">
-      <input type="text" class="admin-input" id="inpClave" placeholder="Contraseña">
-
-      <button class="btn-action" onclick="guardarCuentaAdmin()">➕ Guardar Cuenta</button>
-
-      <div style="margin: 16px 0 8px 0; font-size: 13px; font-weight: 700; color: #a855f7;">CUENTAS EN MEMORIA:</div>
-      <div id="listaAdminCuentas" style="max-height: 150px; overflow-y: auto;"></div>
-
-      <button class="btn-action btn-secondary" onclick="cerrarModales()">Cerrar Sesión</button>
-    </div>
-  </div>
-
-  <div id="toast">Copiado al portapapeles</div>
-
-  <script>
-    // Tiempo agradable para contemplar el inicio (1.4s) antes de la transición suave
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        const splash = document.getElementById('splash');
-        if (splash) {
-          splash.classList.add('hidden');
-          setTimeout(() => splash.style.display = 'none', 750);
-        }
-      }, 1400);
-    });
-
-    function obtenerBD() {
-      const data = localStorage.getItem('astral_cuentas');
-      return data ? JSON.parse(data) : {};
-    }
-
-    function guardarBD(data) {
-      localStorage.setItem('astral_cuentas', JSON.stringify(data));
-    }
-
-    function abrirModalAnimado(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.style.display = 'flex';
-      setTimeout(() => modal.classList.add('active'), 20);
-    }
-
-    let toquesTitulo = 0;
-    let timerToques = null;
-    function tocarTituloAdmin() {
-      toquesTitulo++;
-      clearTimeout(timerToques);
-      timerToques = setTimeout(() => { toquesTitulo = 0; }, 1400);
-
-      if (toquesTitulo >= 5) {
-        toquesTitulo = 0;
-        document.getElementById('inpPin').value = '';
-        abrirModalAnimado('modalPin');
-        setTimeout(() => document.getElementById('inpPin').focus(), 300);
-      }
-    }
-
-    function validarPin() {
-      const pin = document.getElementById('inpPin').value;
-      if (pin === "Astral2236#") {
-        cerrarModales();
-        setTimeout(() => abrirPanelAdmin(), 250);
-      } else {
-        mostrarToast("❌ Clave Incorrecta");
-      }
-    }
-
-    function abrirPanelAdmin() {
-      cargarListaAdmin();
-      abrirModalAnimado('modalAdmin');
-    }
-
-    function guardarCuentaAdmin() {
-      const plat = document.getElementById('selPlataforma').value;
-      const user = document.getElementById('inpUsuario').value.trim();
-      const pass = document.getElementById('inpClave').value.trim();
-
-      if (!user || !pass) {
-        mostrarToast("⚠️ Completa los campos");
-        return;
-      }
-
-      const bd = obtenerBD();
-      if (!bd[plat]) bd[plat] = [];
-      bd[plat].push({ usuario: user, password: pass });
-      guardarBD(bd);
-
-      document.getElementById('inpUsuario').value = '';
-      document.getElementById('inpClave').value = '';
-      cargarListaAdmin();
-      mostrarToast("✅ Guardado con éxito");
-    }
-
-    function eliminarCuentaAdmin(plat, idx) {
-      const bd = obtenerBD();
-      if (bd[plat]) {
-        bd[plat].splice(idx, 1);
-        if (bd[plat].length === 0) delete bd[plat];
-        guardarBD(bd);
-        cargarListaAdmin();
-        mostrarToast("🗑️ Cuenta eliminada");
-      }
-    }
-
-    function cargarListaAdmin() {
-      const bd = obtenerBD();
-      const cont = document.getElementById('listaAdminCuentas');
-      cont.innerHTML = '';
-      let hayCuentas = false;
-
-      for (let plat in bd) {
-        bd[plat].forEach((c, idx) => {
-          hayCuentas = true;
-          const item = document.createElement('div');
-          item.className = 'account-item-admin';
-          item.innerHTML = `
-            <div>
-              <strong>${plat}</strong><br>
-              <span style="color:#38bdf8;">${c.usuario}</span>
-            </div>
-            <button class="btn-del" onclick="eliminarCuentaAdmin('${plat}', ${idx})">Borrar</button>
-          `;
-          cont.appendChild(item);
-        });
-      }
-
-      if (!hayCuentas) {
-        cont.innerHTML = '<div style="font-size:11px; color:#64748b; padding:8px;">No hay cuentas guardadas aún.</div>';
-      }
-    }
-
-    function verCuentas(plat) {
-      const bd = obtenerBD();
-      document.getElementById('mUserTitle').innerText = plat;
-      const cont = document.getElementById('mUserContent');
-      cont.innerHTML = '';
-
-      if (bd[plat] && bd[plat].length > 0) {
-        const c = bd[plat][0];
-        cont.innerHTML = `
-          <div class="account-card">
-            <div class="field-lbl">USUARIO / CORREO:</div>
-            <div class="field-box">
-              <span id="usrVal">${c.usuario}</span>
-              <button class="btn-copy-tag" onclick="copiarTexto('usrVal')">Copiar</button>
-            </div>
-            <div class="field-lbl">CONTRASEÑA:</div>
-            <div class="field-box">
-              <span id="pwdVal">${c.password}</span>
-              <button class="btn-copy-tag" onclick="copiarTexto('pwdVal')">Copiar</button>
-            </div>
-          </div>
-        `;
-      } else {
-        cont.innerHTML = `
-          <div class="account-card" style="text-align:center; padding:18px 10px;">
-            <p style="font-size:13px; color:#cbd5e1;">😔 No hay stock disponible de esta cuenta en este momento.</p>
-          </div>
-        `;
-      }
-
-      abrirModalAnimado('modalUser');
-    }
-
-    function cerrarModales() {
-      const modales = document.querySelectorAll('.modal-overlay');
-      modales.forEach(m => {
-        m.classList.remove('active');
-        setTimeout(() => m.style.display = 'none', 350);
-      });
-    }
-
-    function copiarTexto(id) {
-      const txt = document.getElementById(id).innerText;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(txt);
-      } else {
-        const ta = document.createElement('textarea');
-        ta.value = txt;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-      }
-      mostrarToast("Copiado al portapapeles");
-    }
-
-    function mostrarToast(txt) {
-      const t = document.getElementById('toast');
-      t.innerText = txt;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2000);
-    }
-
-    function filtrar(cat, btn) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('searchInput').value = '';
-      
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        if (cat === 'todos' || card.getAttribute('data-cat') === cat) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    function filtrarBusqueda() {
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        const title = card.querySelector('.card-title').innerText.toLowerCase();
-        const desc = card.querySelector('.card-desc').innerText.toLowerCase();
-        if (title.includes(q) || desc.includes(q)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-  </script>
-</body>
-</html>
+    <div class="card c-steam" data
